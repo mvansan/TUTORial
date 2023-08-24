@@ -35,8 +35,8 @@ class Subtopic(models.Model):
 class Matching(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    salary_min = models.IntegerField()
-    salary_max = models.IntegerField()
+    salary_min = models.IntegerField(null=True)
+    salary_max = models.IntegerField(null=True)
     DOW_CHOICES = ((1, '月'),
                 (2, '火'),
                 (3, '水'),
@@ -44,7 +44,7 @@ class Matching(models.Model):
                 (5, '金'),
                 (6, '土'),
                 (7, '日'))
-    time = MultiSelectField(max_length=200, choices=DOW_CHOICES)
+    time = MultiSelectField(max_length=200, choices=DOW_CHOICES, null=True)
     def __str__(self):
         return self
     
@@ -57,20 +57,27 @@ class Point(models.Model):
     
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True)
+    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=200)
     body = models.TextField()
     participants = models.ManyToManyField(
         User, related_name='participants', blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-updated','-created']
     
     def __str__(self):
-        return self.body[0:50]
+        return self.title
     
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.body[0:50]
