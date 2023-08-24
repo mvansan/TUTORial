@@ -1,0 +1,40 @@
+.page-content {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #ffddd3;
+    padding: 20px 20px;
+}
+
+
+.content-tab {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+}
+
+.search {
+    margin: 3em auto 3em auto;
+}
+
+.search-tab {
+    background-color: #ffffff;
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 2em 2em;
+    margin: 15em auto 15em auto;
+    text-decoration: none;
+    color: #333;
+    border-radius: 100px;
+    text-align: center;
+    font-size: large;
+}
+
+body {
+    background-image: url("/static/images/banner.png"); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+}
