@@ -41,17 +41,3 @@ def createQuestion(request):
         
     context = {'form':form}
     return render(request, 'base/question_form.html', context)
-
-def updateQuestion(request, pk):
-    question = Question.objects.get(id=pk)
-    form = QuestionForm(instance=question)
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            question = form.save(commit=False)
-            question.user = request.user
-            question.save()
-            return redirect('question', pk=question.id)
-        
-    context = {'form':form}
-    return render(request, 'base/question_form.html', context)
