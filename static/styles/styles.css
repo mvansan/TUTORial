@@ -2,7 +2,7 @@
 
 :root {
     --color-main: #ffddd3;
-    --color-main-light: #0087FF;
+    --color-main-light: #fef0eb;
     --color-dark: #3f4156;
     --color-dark-medium: #51546e;
     --color-dark-light: #696d97;
@@ -32,9 +32,28 @@ body {
     background-color: var(--color-bg);
 }
 
-a:link {
+a {
     text-decoration: none;
     color: inherit;
+}
+
+.topic-box{
+    border-radius: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+    margin: 0.5rem;
+    background-color: var(--color-light);
+}
+
+.questionlist-container{
+    min-height: 10.5rem;
+    padding: 0 1rem;
+}
+
+.questionlist-box{
+    margin: 1em 0;
+    border-radius: 1rem;
+    padding: 2rem;
+    background-color: var(--color-light);
 }
 
 .qa-container {

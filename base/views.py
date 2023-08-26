@@ -6,12 +6,14 @@ from .forms import QuestionForm
 def home(request):
     topics = Topic.objects.all()
     questions = Question.objects.all()
-    context = {'questions':questions, 'topics':topics}
+    context = {'questions':questions}
     return render(request, 'base/home.html', context)
 
 def questionList(request):
+    topics = Topic.objects.all()
     questions = Question.objects.all()
-    context = {'questions':questions}
+    question_count = questions.count()
+    context = {'questions':questions, 'question_count':question_count, 'topics':topics}
     return render(request, 'base/question_list.html', context)
 
 def question(request, pk):
@@ -41,3 +43,25 @@ def createQuestion(request):
         
     context = {'form':form}
     return render(request, 'base/question_form.html', context)
+
+def updateQuestion(request, pk):
+    question = Question.objects.get(id=pk)
+    form = QuestionForm(instance=question)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.user = request.user
+            question.save()
+            return redirect('question', pk=question.id)
+        
+    context = {'form':form}
+    return render(request, 'base/question_form.html', context)
+
+
+def deleteQuestion(request, pk):
+    question = Question.objects.get(id=pk)
+    if request.method == 'POST':
+        question.delete()
+        return redirect('questionList')
+    return render(request, 'base/delete.html', {'obj':question})
