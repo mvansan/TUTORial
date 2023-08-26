@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="form-container content-container">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <p class="notification">Do you want to delete "{{obj}}"?</p>
+        <div class="text-center">
+            <a role="button" class="secondary button-style" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+            <input role="button" class="button-style" type="submit" value="Confirm" />
+        </div>
+    </form>
+</div>
+{% endblock content %}
