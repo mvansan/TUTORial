@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>マッチング</title>
+</head>
+<center>
+<body>
+    <h3>学びたい言語</h3>
+    <p>
+      <select name="example" required>
+      <!--<option value="">選択してください</option>-->
+      <option>c言語</option>
+      <option>python</option>
+      <option>javascript</option>
+      <option>java</option>
+      <option>R言語</option>
+      </select>
+       <strong>必須</strong>
+      </p>
+
+      <h3>曜日を選択</h3>
+      <form>
+        <label for="monday">
+          <input type="checkbox" name="day" value="monday" id="monday">
+          月曜日
+        </label>
+        <label for="tuesday">
+          <input type="checkbox" name="day" value="tuesday" id="tuesday">
+          火曜日
+        </label>
+        <label for="wednesday">
+          <input type="checkbox" name="day" value="wednesday" id="wednesday">
+          水曜日
+        </label>
+          <label for="redlabel">
+            <input type="checkbox" name="day" value="thursday" id="thursday">
+            木曜日
+          </label>
+          <label for="friday">
+            <input type="checkbox" name="day" value="friday" id="friday">
+            金曜日
+          </label>
+          <label for="saturday">
+            <input type="checkbox" name="day" value="saturday" id="saturday">
+            土曜日
+          </label>
+          <label for="sunday">
+            <input type="checkbox" name="day" value="sunday" id="sunday">
+            日曜日
+          </label>
+      </form>
+
+        <h3>給与を入力</h3>
+        
+<form>
+  <label for="labelname">最低給与：<input type="number" name="name" id="labelname"></label>
+  <label for="labelmail">最高給与：<input type="number" name="name" id="labelname"></label>
+  <input type="reset" value="リセットする">
+ </form>
+
+        
+        <h3>時間を選択</h3>
+        <p>
+        <select name="example" required>
+          <!--<option value="">時間</option>-->
+          <option>朝(8:00~12:00)</option>
+          <option>昼(12:00~16:00)</option>
+          <option>夕方(16:00~20:00)</option>
+          <option>夜(20:00~24:00)</option>
+          <option>終日</option>
+          </select>
+           <strong>必須</strong>
+          </p>
+      
+      
+      <p><input type="submit" value="マッチング"></p>
+      
+      </form>
+</body>
+</center>
+</html>

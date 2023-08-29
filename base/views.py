@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
 from .forms import QuestionForm
+from django.http.response import JsonResponse
+from .models import Review
 
 def home(request):
     topics = Topic.objects.all()
@@ -65,3 +67,32 @@ def deleteQuestion(request, pk):
         question.delete()
         return redirect('questionList')
     return render(request, 'base/delete.html', {'obj':question})
+
+def my_view(request):
+    # トピックとサブトピックのデータを取得
+    topics = ["プログラミング", "アート"]
+    programming_subcategories = ["ウェブ開発", "モバイルアプリ開発"]
+    art_subcategories = ["絵画", "彫刻"]
+    
+    # サブトピックをトピックに関連付けて辞書に格納
+    topic_subcategories = {
+        "プログラミング": programming_subcategories,
+        "アート": art_subcategories,
+    }
+
+    return render(request, 'doroppudowan.html', {
+        'topics': topics,
+        'topic_subcategories': topic_subcategories,
+    })
+
+def submit_review(request):
+    if request.method == 'POST':
+        user_id = request.POST['user_id']
+        teacher_id = request.POST['teacher_id']
+        rating = request.POST['rating']
+        comment = request.POST['comment']
+
+        review = Review(user_id=user_id, teacher_id=teacher_id, rating=rating, comment=comment)
+        review.save()
+
+    return render(request, 'assessmentform.html')

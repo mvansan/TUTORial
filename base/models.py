@@ -81,3 +81,13 @@ class Answer(models.Model):
     
     def __str__(self):
         return self.body[0:50]
+    
+
+class Review(models.Model):
+    user_id = models.CharField(max_length=10)
+    teacher_id = models.CharField(max_length=10)
+    rating = models.IntegerField()
+    comment = models.TextField()
+
+    def __str__(self):
+        return f"Review by {self.user_id}"

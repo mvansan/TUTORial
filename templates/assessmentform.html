@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+{%load static%}
+{%include "navbar.html"%}
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>フォームの送信</title>
+</head>
+
+<style>body{
+  background-color: #FFDDD3;
+}
+.stars span{
+  display: flex;               /* 要素をフレックスボックスにする */
+  flex-direction: row-reverse; /* 星を逆順に並べる */
+  justify-content: center;   /* 逆順なので、左寄せにする */
+}
+
+.stars input[type='radio']{
+  display: none;               /* デフォルトのラジオボタンを非表示にする */
+}
+
+.stars label{
+  color: #D2D2D2;              /* 未選択の星をグレー色に指定 */
+  font-size: 20px;             /* 星の大きさを30pxに指定 */
+  padding: 0 5px;              /* 左右の余白を5pxに指定 */
+  cursor: pointer;             /* カーソルが上に乗ったときに指の形にする */
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input[type='radio']:checked ~ label{
+  color: #F8C601;              /* 選択された星以降をすべて黄色にする */
+}
+</style> 
+
+<script>
+  // JavaScriptで星の数を数字に変換する関数
+  function convertStarsToNumber() {
+    // ラジオボタンの要素を取得
+    const radioButtons = document.querySelectorAll('input[type="radio"][name="review"]');
+    let selectedStars = 0;
+
+    // 選択されたラジオボタンの数を数える
+    radioButtons.forEach(radioButton => {
+      if (radioButton.checked) {
+        selectedStars++;
+      }
+    });
+
+    // 選択された星の数を表示または使用する（例: フォーム送信）
+    console.log('選択された星の数: ' + selectedStars);
+
+    // 選択された星の数をフォームの別のフィールドに設定する場合
+    // 例: 隠しフィールドに設定する
+    const starCountField = document.querySelector('#starCount');
+    starCountField.value = selectedStars;
+  }
+</script>
+
+<body>
+  <center>
+<form>
+    <div class="example">
+      <label for="namelabel">userID</label>
+      <input type="text" name="name" id="namelabel" placeholder="例）00000">
+    </div>
+    <div class="example">
+      <label for="namelabel">teacherID</label>
+      <input type="text" name="name" id="namelabel" placeholder="例）00000">
+    </div>
+    <div class="review">
+      <h3>レビュー</h3>
+      <div class="stars">
+        <span>
+          <input id="review01" type="radio" name="review"><label for="review01">★</label>
+          <input id="review02" type="radio" name="review"><label for="review02">★</label>
+          <input id="review03" type="radio" name="review"><label for="review03">★</label>
+          <input id="review04" type="radio" name="review"><label for="review04">★</label>
+          <input id="review05" type="radio" name="review"><label for="review05">★</label>
+        </span>
+      </div>
+      <div class="example">
+        <label for="starCount">選択された星の数:</label>
+        <input type="text" id="starCount" readonly>
+      </div>
+    </div>
+     <div class="example">
+      <p>ご意見</p>
+      <label for="ikenlabel"><br></label>
+      <textarea name="comment" cols="100" rows="50"></textarea></p>
+    </div>
+    <div class="example">
+      <input type="submit" value="送信する">
+    </div>  
+  </form>
+  </center>
+</body>
+</html>
+
