@@ -9,7 +9,6 @@ class QuestionForm(ModelForm):
         fields = ['topic','subtopic','title','body']
 
 
-
 # class AddressForm(forms.Form):
 #     subtopic = forms.ChoiceField(
 #         choices = get_topic(),
