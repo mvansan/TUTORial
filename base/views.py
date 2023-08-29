@@ -1,7 +1,11 @@
+from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
-from .forms import QuestionForm
+from django.views.generic.list import ListView
+from .models import User, Topic, Subtopic, MatchingTeacher, MatchingStudent, Point, Question, Answer
+from .forms import QuestionForm, MatchingForm
+from .filters import MatchingFilter
 
 def home(request):
     topics = Topic.objects.all()
@@ -87,3 +91,27 @@ def submit_profile(request):
         return render(request, 'student-profile.html', {'name': name, 'introduction': introduction})
     
     return HttpResponseRedirect('/')
+
+def matching(request):
+    matching_filter = MatchingFilter(request.GET, queryset=MatchingTeacher.objects.all())
+    form = matching_filter.form
+    matchings = matching_filter.qs
+    context = {'form':form, 'matchings':matchings}
+    return render(request, 'base/matching_result.html', context)
+
+class MatchingListView(ListView):
+    queryset = MatchingTeacher.objects.all()
+    template_name = 'base/matching_result.html'
+    context_object_name = 'matchings'
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = MatchingFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.filterset.form
+        return context
+    
+    

@@ -37,6 +37,15 @@ a {
     color: inherit;
 }
 
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 .topic-box{
     border-radius: 1rem;
     padding: 0.5rem 2rem 0.5rem 2rem;
@@ -139,6 +148,13 @@ a {
     border-radius: 5px;
 }
 
+.banner {
+    background-image: url("/static/images/banner.png"); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+}
+
 .search-tab {
     background-color: #ffffff;
     display: inline-block;
@@ -152,235 +168,286 @@ a {
     font-size: large;
 }
 
-.background-image {
+body {
     background-image: url("/static/images/banner.png"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
-    
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+}
+
+.background-image {
+  background-image: url("/static/images/banner.png"); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  
 }
 
 
 .user_info_form {
-    text-align: left;
-    top: 100px;
+  text-align: left;
+  top: 100px;
 }
 
 .user_info {
-    background-color: #fef0eb;
-    padding: auto 300px;
+  background-color: #fef0eb;
+  padding: auto 300px;
 }
 
 .user_info_form_title {
-    text-align: left;
-    margin: 60px 50px;
+  text-align: left;
+  margin: 60px 50px;
 }
 
 
 .Form {
-    margin-top: 80px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 720px;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+}
+@media screen and (max-width: 480px) {
+  .Form {
+    margin-top: 40px;
   }
-  @media screen and (max-width: 480px) {
-    .Form {
-      margin-top: 40px;
-    }
-  }
-  
-  .upload {
-    font-size: 18px;
-    margin: 5px 50px ;
-  }
-
-  .Form-Item {
-    border-top: 1px solid #ddd;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item {
-      padding-left: 14px;
-      padding-right: 14px;
-      padding-top: 16px;
-      padding-bottom: 16px;
-      flex-wrap: wrap;
-    }
-  }
-  .Form-Item:nth-child(5) {
-    border-bottom: 1px solid #ddd;
-  }
-  .Form-Item-Label {
-    width: 100%;
-    max-width: 248px;
-    letter-spacing: 0.05em;
-    font-size: 20px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item-Label {
-      max-width: inherit;
-      display: flex;
-      align-items: center;
-      font-size: 15px;
-    }
-  }
-  .Form-Item-Label.isMsg {
-    margin-top: 8px;
-    margin-bottom: auto;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item-Label.isMsg {
-      margin-top: 0;
-    }
-  }
-  .Form-Item-Label-Required {
-    border-radius: 6px;
-    margin-right: 8px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    width: 48px;
-    display: inline-block;
-    text-align: center;
-    background: #5bc8ac;
-    color: #fff;
-    font-size: 14px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item-Label-Required {
-      border-radius: 4px;
-      padding-top: 4px;
-      padding-bottom: 4px;
-      width: 32px;
-      font-size: 10px;
-    }
-  }
-  .Form-Item-Input {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-left: 40px;
-    padding-left: 1em;
-    padding-right: 1em;
-    height: 48px;
-    flex: 1;
-    width: 100%;
-    max-width: 410px;
-    background: #eaedf2;
-    font-size: 18px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item-Input {
-      margin-left: 0;
-      margin-top: 18px;
-      height: 40px;
-      flex: inherit;
-      font-size: 15px;
-    }
-  }
-  .Form-Item-Textarea {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-left: 40px;
-    padding-left: 1em;
-    padding-right: 1em;
-    height: 216px;
-    flex: 1;
-    width: 100%;
-    max-width: 410px;
-    background: #eaedf2;
-    font-size: 18px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Item-Textarea {
-      margin-top: 18px;
-      margin-left: 0;
-      height: 200px;
-      flex: inherit;
-      font-size: 15px;
-    }
-  }
-  .Form-Btn {
-    border-radius: 6px;
-    margin: 32px auto 50px auto;
-    margin-top: 32px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 280px;
-    display: block;
-    letter-spacing: 0.05em;
-    background: #5bc8ac;
-    color: #fff;
-    font-size: 20px;
-  }
-  .Form-Btn:active {
-    background-color: #4ba18b;
-  }
-  @media screen and (max-width: 480px) {
-    .Form-Btn {
-      margin-top: 24px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-      width: 160px;
-      font-size: 16px;
-    }
-  }
-
-  .empty {
-    width: auto;
-    height: 84px;
-  }
-
-  .photo-upload {
-    margin-left: 40px;
-    flex: 1;
-    width: 100%;
-    font-size: 18px;
-  }
-
-  .upload {
-    float: right;
-    padding: 0 20px;
-  }
-
-.profile {
-  width: 100%;
-  float: center;
 }
 
-.profile-image {
-  margin: 0 0 0 60px;
-  width: 30%;
-  float: left;
+.upload {
+  font-size: 18px;
+  margin: 5px 50px ;
 }
 
-.text-content {
-  margin: 0 20px 0 20px;
-  width: 60%;
-  float: right;
-}
-
-.text-content-title {
-  width: 30%;
-  letter-spacing: 0.05em;
-  font-size: 20px;
-  margin-right: 30px;
-}
-
-.content-input {
-  width: 50%;
-  font-size: 20px;
-}
-
-.text-content-item {
+.Form-Item {
   border-top: 1px solid #ddd;
   padding-top: 24px;
   padding-bottom: 24px;
+  width: 100%;
   display: flex;
   align-items: center;
 }
+@media screen and (max-width: 480px) {
+  .Form-Item {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+}
+.Form-Item:nth-child(5) {
+  border-bottom: 1px solid #ddd;
+}
+.Form-Item-Label {
+  width: 100%;
+  max-width: 248px;
+  letter-spacing: 0.05em;
+  font-size: 20px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label {
+    max-width: inherit;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.Form-Item-Label.isMsg {
+  margin-top: 8px;
+  margin-bottom: auto;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label.isMsg {
+    margin-top: 0;
+  }
+}
+.Form-Item-Label-Required {
+  border-radius: 6px;
+  margin-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 48px;
+  display: inline-block;
+  text-align: center;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 14px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label-Required {
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 32px;
+    font-size: 10px;
+  }
+}
+.Form-Item-Input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 48px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Input {
+    margin-left: 0;
+    margin-top: 18px;
+    height: 40px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+.Form-Item-Textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 216px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Textarea {
+    margin-top: 18px;
+    margin-left: 0;
+    height: 200px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+.Form-Btn {
+  border-radius: 6px;
+  margin: 32px auto 50px auto;
+  margin-top: 32px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 280px;
+  display: block;
+  letter-spacing: 0.05em;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 20px;
+}
+.Form-Btn:active {
+  background-color: #4ba18b;
+}
+@media screen and (max-width: 480px) {
+  .Form-Btn {
+    margin-top: 24px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 160px;
+    font-size: 16px;
+  }
+}
+
+.empty {
+  width: auto;
+  height: 84px;
+}
+
+.photo-upload {
+  margin-left: 40px;
+  flex: 1;
+  width: 100%;
+  font-size: 18px;
+}
+
+.upload {
+  float: right;
+  padding: 0 20px;
+}
+
+.profile {
+width: 100%;
+float: center;
+}
+
+.profile-image {
+margin: 0 0 0 60px;
+width: 30%;
+float: left;
+}
+
+.text-content {
+margin: 0 20px 0 20px;
+width: 60%;
+float: right;
+}
+
+.text-content-title {
+width: 30%;
+letter-spacing: 0.05em;
+font-size: 20px;
+margin-right: 30px;
+}
+
+.content-input {
+width: 50%;
+font-size: 20px;
+}
+
+.text-content-item {
+border-top: 1px solid #ddd;
+padding-top: 24px;
+padding-bottom: 24px;
+display: flex;
+align-items: center;
+}
+
+/*Matching*/
+.matching-container {
+  margin: 1em 0;
+  padding: 1em;
+}
+
+.matching-box {
+  margin: 1em 0;
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: var(--color-light);
+}
+
+.matching-box p {
+  font-size: 0.8em;
+}
+
+.profile-picture {
+  position: relative;
+  margin: auto;
+}
+
+.weekDays-selector input {
+  display: none!important;
+}
+
+.weekDays-selector input[type=checkbox] + label {
+  display: inline-block;
+  border-radius: 50%;
+  background: #dddddd;
+  height: 25px;
+  width: 25px;
+  margin: 2px;
+  text-align: center;
+  font-size: 0.6em;
+  line-height: 25px;
+}
+
+.weekDays-selector input[type=checkbox]:checked + label {
+  background: #2AD705;
+  color: #ffffff;
+}
+/**/
