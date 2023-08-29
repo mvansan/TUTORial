@@ -9,14 +9,13 @@ class QuestionForm(ModelForm):
         fields = ['topic','subtopic','title','body']
 
 
-
-class AddressForm(forms.Form):
-    subtopic = forms.ChoiceField(
-        choices = get_topic(),
-        required = False,
-        label='トピック',
-        widget=forms.Select(attrs={'class':'form-control','id':'id_topic'}),
-    )
+# class AddressForm(forms.Form):
+#     subtopic = forms.ChoiceField(
+#         choices = get_topic(),
+#         required = False,
+#         label='トピック',
+#         widget=forms.Select(attrs={'class':'form-control','id':'id_topic'}),
+#     )
         
 class MatchingForm(ModelForm):
     class Meta:
