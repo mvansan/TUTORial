@@ -37,6 +37,15 @@ a {
     color: inherit;
 }
 
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 .topic-box{
     border-radius: 1rem;
     padding: 0.5rem 2rem 0.5rem 2rem;
@@ -130,8 +139,11 @@ a {
     border-radius: 5px;
 }
 
-.search {
-    margin: 3em auto 3em auto;
+.banner {
+    background-image: url("/static/images/banner.png"); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center;
 }
 
 .search-tab {
@@ -147,9 +159,46 @@ a {
     font-size: large;
 }
 
-body {
-    background-image: url("/static/images/banner.png"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center center;
+/*Matching*/
+.matching-container {
+    margin: 1em 0;
+    padding: 1em;
 }
+
+.matching-box {
+    margin: 1em 0;
+    border-radius: 1rem;
+    padding: 2rem;
+    background-color: var(--color-light);
+}
+
+.matching-box p {
+    font-size: 0.8em;
+}
+
+.profile-picture {
+    position: relative;
+    margin: auto;
+}
+
+.weekDays-selector input {
+    display: none!important;
+}
+
+.weekDays-selector input[type=checkbox] + label {
+    display: inline-block;
+    border-radius: 50%;
+    background: #dddddd;
+    height: 25px;
+    width: 25px;
+    margin: 2px;
+    text-align: center;
+    font-size: 0.6em;
+    line-height: 25px;
+}
+
+.weekDays-selector input[type=checkbox]:checked + label {
+    background: #2AD705;
+    color: #ffffff;
+}
+/**/

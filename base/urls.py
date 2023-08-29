@@ -8,4 +8,5 @@ urlpatterns = [
     path('create-question/', views.createQuestion, name="create-question"),
     path('update-question/<str:pk>', views.updateQuestion, name="update-question"),
     path('delete-question/<str:pk>', views.deleteQuestion, name="delete-question"),
+    path('matching/', views.MatchingListView.as_view(), name="matching"),
 ]
