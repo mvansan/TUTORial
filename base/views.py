@@ -80,17 +80,6 @@ def student_profile_view(request):
 def teacher_profile_view(request):
     return render(request, 'base/teacher-profile.html')
 
-def submit_profile(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        introduction = request.POST.get('introduction')
-
-        # ここで受け取ったデータをデータベースに保存するか、セッションに保持するなどの処理が行われる想定
-
-        # student-profile.html にデータを渡して表示する
-        return render(request, 'student-profile.html', {'name': name, 'introduction': introduction})
-    
-    return HttpResponseRedirect('/')
 
 def matching(request):
     matching_filter = MatchingFilter(request.GET, queryset=MatchingTeacher.objects.all())
