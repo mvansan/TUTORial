@@ -65,3 +65,25 @@ def deleteQuestion(request, pk):
         question.delete()
         return redirect('questionList')
     return render(request, 'base/delete.html', {'obj':question})
+
+def user_info(request):
+    return render(request, 'base/user_info.html')
+
+
+def student_profile_view(request):
+    return render(request, 'base/student-profile.html')
+
+def teacher_profile_view(request):
+    return render(request, 'base/teacher-profile.html')
+
+def submit_profile(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        introduction = request.POST.get('introduction')
+
+        # ここで受け取ったデータをデータベースに保存するか、セッションに保持するなどの処理が行われる想定
+
+        # student-profile.html にデータを渡して表示する
+        return render(request, 'student-profile.html', {'name': name, 'introduction': introduction})
+    
+    return HttpResponseRedirect('/')
