@@ -168,13 +168,6 @@ a {
     font-size: large;
 }
 
-body {
-    background-image: url("/static/images/banner.png"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center center;
-}
-
 .background-image {
   background-image: url("/static/images/banner.png"); 
   background-size: cover;
