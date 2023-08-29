@@ -1,12 +1,9 @@
 {% extends 'main.html' %}
 {% block content %}
+
 <div class="banner">
-
-</div>
-
-<div class="search">
     <center>
-        <a href="#" class="search-tab">家庭教師を探しましょう！</a>
+        <a href="{% url 'matching' %}" class="search-tab">家庭教師を探しましょう！</a>
     </center>
 </div>
 {% endblock content %}
