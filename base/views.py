@@ -1,8 +1,11 @@
+from typing import Any, Dict
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
-from .forms import QuestionForm
-from django.http.response import JsonResponse
+from django.views.generic.list import ListView
+from .models import User, Topic, Subtopic, MatchingTeacher, MatchingStudent, Point, Question, Answer
+from .forms import QuestionForm, MatchingForm
+from .filters import MatchingFilter
 from .models import Review
 
 def home(request):
@@ -67,23 +70,6 @@ def deleteQuestion(request, pk):
         question.delete()
         return redirect('questionList')
     return render(request, 'base/delete.html', {'obj':question})
-
-def my_view(request):
-    # トピックとサブトピックのデータを取得
-    topics = ["プログラミング", "アート"]
-    programming_subcategories = ["ウェブ開発", "モバイルアプリ開発"]
-    art_subcategories = ["絵画", "彫刻"]
-    
-    # サブトピックをトピックに関連付けて辞書に格納
-    topic_subcategories = {
-        "プログラミング": programming_subcategories,
-        "アート": art_subcategories,
-    }
-
-    return render(request, 'doroppudowan.html', {
-        'topics': topics,
-        'topic_subcategories': topic_subcategories,
-    })
 
 def submit_review(request):
     if request.method == 'POST':

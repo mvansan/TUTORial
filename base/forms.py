@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from .models import Question
 from django import forms
 import json
+from .models import Question, MatchingTeacher
 
 class QuestionForm(ModelForm):
     class Meta:
@@ -37,3 +38,9 @@ class AddressForm(forms.Form):
         label='トピック',
         widget=forms.Select(attrs={'class':'form-control','id':'id_topic'}),
     )
+        
+class MatchingForm(ModelForm):
+    class Meta:
+        model = MatchingTeacher
+        fields = '__all__'
+        exclude = ['user']
