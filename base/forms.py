@@ -1,13 +1,13 @@
 from django.forms import ModelForm
 from .models import Question
 from django import forms
-from .models import Question, MatchingTeacher
+from .models import Question, Matching
 from .models import UserInfo
 
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
-        fields = ['topic','subtopic','title','body']
+        fields = ['topic','title','body']
 
 
 # class AddressForm(forms.Form):
@@ -20,7 +20,7 @@ class QuestionForm(ModelForm):
         
 class MatchingForm(ModelForm):
     class Meta:
-        model = MatchingTeacher
+        model = Matching
         fields = '__all__'
         exclude = ['user']
 

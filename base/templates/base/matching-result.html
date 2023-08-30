@@ -1,0 +1,95 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <h1 class="text-center mt-4">Matching result</h1>
+    <h1>
+        {{ request }}
+    </h1>
+    <hr/>
+    <h1>
+        {{ matchings }}
+    </h1>
+    <h1>
+        {% for matching in matchings %}
+        {{matching.time}}
+        {%endfor%}
+    </h1>
+    {% for matching in matchings %}
+    <div class ="matching-container mb-4 col-4">
+        <div class="matching-box row">
+            <a class="profile-picture col-4">
+                <img class="center" src="{{matching.user.avatar.url}}" height="100" />
+            </a>
+            <div class="col-8">
+                <p>Topic: {{matching.topic}}</p>
+                <p>Salary: {{matching.salary}}</p>
+                <p>Point: {{ matching.point }}</p>
+                <div class="weekDays-selector">
+                    {% if '1' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-mon" class="weekday" checked />
+                    <label for="weekday-mon">M</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-mon" class="weekday" />
+                    <label for="weekday-mon">M</label>
+                    {% endif %}
+
+                    {% if '2' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-tue" class="weekday" checked />
+                    <label for="weekday-tue">T</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-tue" class="weekday" />
+                    <label for="weekday-tue">T</label>
+                    {% endif %}
+
+                    {% if '3' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-wed" class="weekday" checked />
+                    <label for="weekday-wed">W</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-wed" class="weekday" />
+                    <label for="weekday-wed">W</label>
+                    {% endif %}
+
+                    {% if '4' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-thu" class="weekday" checked />
+                    <label for="weekday-thu">T</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-thu" class="weekday" />
+                    <label for="weekday-thu">T</label>
+                    {% endif %}
+
+                    {% if '5' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-fri" class="weekday" checked />
+                    <label for="weekday-fri">F</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-fri" class="weekday" />
+                    <label for="weekday-fri">F</label>
+                    {% endif %}
+
+                    {% if '6' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-sat" class="weekday" checked />
+                    <label for="weekday-sat">S</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-sat" class="weekday" />
+                    <label for="weekday-sat">S</label>
+                    {% endif %}
+
+                    {% if '7' in matching.time %}
+                    <input type="checkbox" onclick="return false;" id="weekday-sun" class="weekday" checked />
+                    <label for="weekday-sun">S</label>
+                    {% else %}
+                    <input type="checkbox" onclick="return false;" id="weekday-sun" class="weekday" />
+                    <label for="weekday-sun">S</label>
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% for point in points %}
+<div> {{point.point}} </div>
+{% endfor %}
+</div>
+{% endblock content %}

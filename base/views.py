@@ -2,14 +2,44 @@ from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import User, Topic, Subtopic, MatchingTeacher, MatchingStudent, Point, Question, Answer
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from .models import User, Topic, Matching, Question, Answer
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
 from .forms import UserInfoForm
 from .models import UserInfo
 
+
+def loginPage(request):
+    page = 'login'
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(email=username)
+        except:
+            messages.error(request, 'User does not exist')
+            
+        user = authenticate(request, email=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password does not exist')
+    
+    context = {'page':page}
+    return render(request, 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 def home(request):
     topics = Topic.objects.all()
@@ -106,15 +136,22 @@ def teacher_profile_view(request):
     return render(request, 'base/teacher-profile.html')
 
 def matching(request):
-    matching_filter = MatchingFilter(request.GET, queryset=MatchingTeacher.objects.all())
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     form = matching_filter.form
     matchings = matching_filter.qs
     context = {'form':form, 'matchings':matchings}
-    return render(request, 'base/matching_result.html', context)
+    return render(request, 'base/matching.html', context)
+
+def matchingResult(request):
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
+    request = request.GET
+    matchings = matching_filter.qs
+    context = {'matchings':matchings,'matching_filter':matching_filter, 'request':request}
+    return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
-    queryset = MatchingTeacher.objects.all()
-    template_name = 'base/matching_result.html'
+    queryset = Matching.objects.all()
+    template_name = 'base/matching.html'
     context_object_name = 'matchings'
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -171,3 +208,12 @@ class ItemCreateView(CreateView):
 class UserDetail(DetailView):
     model = UserInfo
     template_name = "base/student-profile.html"
+class MatchingResultView(TemplateView):
+    template_name = 'base/matching-result.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
+        matchings = matching_filter.qs
+        context['matchings'] = matchings
+        return context
