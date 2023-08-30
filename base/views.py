@@ -11,6 +11,9 @@ from .models import User, Topic, Matching, Question, Answer
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
+from .forms import UserInfoForm
+from .models import UserInfo
+
 
 def loginPage(request):
     page = 'login'
@@ -114,10 +117,20 @@ def submit_review(request):
     return render(request, 'assessmentform.html')
 
 def user_info(request):
-    return render(request, 'base/user_info.html')
+    return render(request, 'base/user-info.html')
 
 def student_profile_view(request):
     return render(request, 'base/student-profile.html')
+
+def create_profile(request):
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_created')  # プロフィールが作成された後のページへリダイレクト
+    else:
+        form = UserInfoForm()
+    return render(request, 'create_profile.html', {'form': form})
 
 def teacher_profile_view(request):
     return render(request, 'base/teacher-profile.html')
@@ -149,6 +162,52 @@ class MatchingListView(ListView):
         context['form'] = self.filterset.form
         return context
 
+
+def user_info_view(request):
+    if request.method == 'POST':
+        profile_picture = request.FILES.get('profilePicture')  # ファイルアップロードの場合
+        name = request.POST.get('name')
+        age = request.POST.get('age')
+        job = request.POST.get('job')
+        phone_number = request.POST.get('phone_number')
+        email = request.POST.get('email')
+        about_me = request.POST.get('about_me')
+        meeting_app = request.POST.get('meeting_app')
+        
+        # データベースに保存
+        user_info = UserInfoForm(
+            profile_picture=profile_picture,
+            name=name,
+            age=age,
+            job=job,
+            phone_number=phone_number,
+            email=email,
+            about_me=about_me,
+            meeting_app=meeting_app,
+        )
+        user_info.save()
+        
+        return redirect('success_url')  # 登録成功後のURLにリダイレクト
+    
+    return render(request, 'base/user-info.html')
+
+
+from django.shortcuts import render
+from django.views.generic import CreateView, TemplateView, DetailView
+ 
+from django.urls import reverse_lazy
+# Create your views here.
+class ItemCreateView(CreateView):
+    model = UserInfo
+    form_class = UserInfoForm
+    template_name = "base/user-info.html"
+    success_url = reverse_lazy("home")
+
+
+
+class UserDetail(DetailView):
+    model = UserInfo
+    template_name = "base/student-profile.html"
 class MatchingResultView(TemplateView):
     template_name = 'base/matching-result.html'
     

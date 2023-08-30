@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+{% include 'navbar.html' %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>user-info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+  <style>
+    body {
+      background-color: #fef0eb;
+    }
+  </style>
+
+  <div class="empty"></div>
+  <div class="user_info_form_title">
+    <h3>＞ユーザ情報入力画面</h3>
+  </div>
+
+    <form class="Form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="content">
+        <div class="content-title">
+          {{form.profile_picture.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.profile_picture}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.name.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.name}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.age.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.age}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.job.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.job}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.phone_number.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.phone_number}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.email.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.email}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.meeting_app.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.meeting_app}}
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-title">
+          {{form.about_me.label_tag}}
+        </div>
+        <div class="input-form">
+            {{form.about_me}}
+
+        </div>
+      </div>
+      
+      
+      <!-- 他のフォームフィールドを追加 -->
+      <input type="submit" class="Form-Btn" value="登録する">
+  </form>
+
+</body>
