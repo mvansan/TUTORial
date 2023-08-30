@@ -32,7 +32,7 @@ class Subtopic(models.Model):
     def __str__(self):
         return self.name
     
-class MatchingTeacher(models.Model):
+class Matching(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
@@ -45,22 +45,6 @@ class MatchingTeacher(models.Model):
                 (6, '土'),
                 (7, '日'))
     time = MultiSelectField(max_length=200, choices=DOWChoices, null=True)
-    def __str__(self):
-        return self.user.username
-    
-class MatchingStudent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    salary_min = models.IntegerField(null=True)
-    salary_max = models.IntegerField(null=True)
-    DOW_CHOICES = ((1, '月'),
-                (2, '火'),
-                (3, '水'),
-                (4, '木'),
-                (5, '金'),
-                (6, '土'),
-                (7, '日'))
-    time = MultiSelectField(max_length=200, choices=DOW_CHOICES, null=True)
     def __str__(self):
         return self.user.username
     

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import User, Topic, Subtopic, MatchingTeacher, MatchingStudent, Point, Question, Answer
+from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
@@ -94,20 +94,20 @@ def teacher_profile_view(request):
     return render(request, 'base/teacher-profile.html')
 
 def matching(request):
-    matching_filter = MatchingFilter(request.GET, queryset=MatchingTeacher.objects.all())
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     form = matching_filter.form
     matchings = matching_filter.qs
     context = {'form':form, 'matchings':matchings}
     return render(request, 'base/matching.html', context)
 
 def matchingResult(request):
-    matching_filter = MatchingFilter(request.GET, queryset=MatchingTeacher.objects.all())
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     matchings = matching_filter.qs
     context = {'matchings':matchings}
     return render(request, 'base/matchin-result.html', context)
 
 class MatchingListView(ListView):
-    queryset = MatchingTeacher.objects.all()
+    queryset = Matching.objects.all()
     template_name = 'base/matching.html'
     context_object_name = 'matchings'
     def get_queryset(self):
@@ -124,7 +124,7 @@ class MatchingResultView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        matching_filter = MatchingFilter(self.request.GET, queryset=MatchingTeacher.objects.all())
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
         matchings = matching_filter.qs
         context['matchings'] = matchings
         return context
