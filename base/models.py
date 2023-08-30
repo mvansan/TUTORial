@@ -30,6 +30,7 @@ class Matching(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
+    point = models.IntegerField()
     
     DOWChoices = ((1, '月'),
                 (2, '火'),
@@ -39,12 +40,6 @@ class Matching(models.Model):
                 (6, '土'),
                 (7, '日'))
     time = MultiSelectField(max_length=200, choices=DOWChoices, null=True)
-    def __str__(self):
-        return self.user.username
-    
-class Point(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     
     @property
     def point(self):
