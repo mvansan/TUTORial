@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from .models import Question
 from django import forms
-from .models import Question, MatchingTeacher
+from .models import Question, MatchingTeacher,Review
 
 class QuestionForm(ModelForm):
     class Meta:
@@ -22,3 +22,11 @@ class MatchingForm(ModelForm):
         model = MatchingTeacher
         fields = '__all__'
         exclude = ['user']
+
+
+"""class Review(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['comment']"""
+
+        

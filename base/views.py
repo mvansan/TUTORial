@@ -1,3 +1,4 @@
+from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
@@ -7,7 +8,9 @@ from .models import User, Topic, Subtopic, MatchingTeacher, MatchingStudent, Poi
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
+from django.views.decorators.csrf import csrf_protect
 
+@csrf_protect
 def home(request):
     topics = Topic.objects.all()
     questions = Question.objects.all()
@@ -81,7 +84,7 @@ def submit_review(request):
         review = Review(user_id=user_id, teacher_id=teacher_id, rating=rating, comment=comment)
         review.save()
 
-    return render(request, 'assessmentform.html')
+    return render(request, 'base/form.html')
 
 def user_info(request):
     return render(request, 'base/user_info.html')
@@ -111,3 +114,26 @@ class MatchingListView(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.filterset.form
         return context
+
+def review(request):
+    books = request.POST.get("book")
+    teacherID = request.POST.get("teacherID")
+    print(books)
+    print(teacherID)
+    context = {}
+    return render(request, 'base/form.html',context)
+
+"""def review(request):
+    if request.mothod == 'POST':
+        form = (request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            review.objects.create(text=text)
+            return redirect('top-page')
+        else:
+            form = Review()
+            return render(request,'base/form.html',{form:form})"""
+
+def match(request):
+    return render(request, 'base/match.html')
+
