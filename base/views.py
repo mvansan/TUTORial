@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
+from .models import User, Topic, Matching, Point, Question, Answer
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
@@ -103,8 +103,9 @@ def matching(request):
 def matchingResult(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     matchings = matching_filter.qs
-    context = {'matchings':matchings}
-    return render(request, 'base/matchin-result.html', context)
+    points = Point.objects.all()
+    context = {'matchings':matchings, 'points':points}
+    return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
     queryset = Matching.objects.all()

@@ -12,21 +12,15 @@ class User(AbstractUser):
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_NOT_SPECIFIED, 'Not specified')]
     gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_NOT_SPECIFIED)
     
-    ROLE_CHOICES = (('teacher', '講師'),('student', '生徒'))
-    role = MultiSelectField(max_length=200, choices=ROLE_CHOICES, default='student')
+    ROLE_CHOICES = [('teacher', '講師'),('student', '生徒')]
+    role = models.CharField(max_length=200, unique=True, choices=ROLE_CHOICES, default='student')
+    
     avatar = models.ImageField(null=True, default="avatar.svg")
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
 class Topic(models.Model):
-    name = models.CharField(max_length=200)
-    
-    def __str__(self):
-        return self.name
-
-class Subtopic(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     
     def __str__(self):
@@ -50,15 +44,46 @@ class Matching(models.Model):
     
 class Point(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    point = models.IntegerField()
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    
+    @property
+    def point(self):
+        answers = Answer.objects.filter(
+            user=self.user, question__topic_id=self.topic_id
+        )
+        point = 0
+        if(answers != None):
+            for answer in answers:
+                point += answer.like
+            
+        reviews = Review.objects.filter(
+            teacher_id=self.user_id, topic_id=self.topic_id
+        )
+        if(reviews != None):
+            for review in reviews:
+                point += self._convert_rating_to_point(review.rating)
+        return point
+    
+    def _convert_rating_to_point(self, rating):
+        if rating == 1:
+            return -100
+        elif rating == 2:
+            return -50
+        elif rating == 3:
+            return 0
+        elif rating == 4:
+            return 50
+        elif rating == 5:
+            return 100
+        else:
+            return 0
     
     def __str__(self):
-        return self.point
+        return self.user.username
     
 class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True)
-    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE, null=True)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     body = models.TextField()
     participants = models.ManyToManyField(
@@ -76,6 +101,7 @@ class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     body = models.TextField()
+    like = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
@@ -84,10 +110,13 @@ class Answer(models.Model):
     
 
 class Review(models.Model):
-    user_id = models.CharField(max_length=10)
-    teacher_id = models.CharField(max_length=10)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_review')
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_review')
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField()
     comment = models.TextField()
-
-    def __str__(self):
-        return f"Review by {self.user_id}"
+    
+class MatchingStatus(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')
+    

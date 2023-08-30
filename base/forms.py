@@ -6,7 +6,7 @@ from .models import Question, Matching
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
-        fields = ['topic','subtopic','title','body']
+        fields = ['topic','title','body']
 
 
 # class AddressForm(forms.Form):
