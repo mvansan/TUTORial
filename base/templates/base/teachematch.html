@@ -96,47 +96,60 @@
     
     
   </p>
-  <h3>曜日選択</h3>
-  <div class="stars">
-    <input id="review01" type="radio" name="book" value="monday"><label for="monday">月曜日</label>
-    <input id="review02" type="radio" name="book" value="tuesday"><label for="tuesday">火曜日</label>
-    <input id="review03" type="radio" name="book" value="wednesday"><label for="wednesday">水曜日</label>
-    <input id="review04" type="radio" name="book" value="thursday"><label for="thursday">木曜日</label>
-    <input id="review05" type="radio" name="book" value="friday"><label for="friday">金曜日</label>
-    <input id="review06" type="radio" name="book" value="saturday"><label for="saturday">土曜日</label>
-    <input id="review07" type="radio" name="book" value="sunday"><label for="sunday">日曜日</label>
-  </div>
+  <div id="id_time",class="flexbox">
+    <div>
+    <label for="id_time_0"><input type="checkbox" name="time" value="1" id="id_time_0">月</label>
 
-  <label>時間を選択:</label>
-  <select id="timeSelect" multiple>
-      <option value="1">8:00 - 12:00</option>
-      <option value="2">12:00 - 16:00</option>
-      <option value="3">16:00 - 20:00</option>
-      <option value="4">20:00 - 24:00</option>
-      <option value="5">終日</option>
-  </select>
-</form>
+</div><div>
+    <label for="id_time_1"><input type="checkbox" name="time" value="2" id="id_time_1">火</label>
 
+</div><div>
+    <label for="id_time_2"><input type="checkbox" name="time" value="3" id="id_time_2">水</label>
+
+</div><div>
+    <label for="id_time_3"><input type="checkbox" name="time" value="4" id="id_time_3">木</label>
+
+</div><div>
+    <label for="id_time_4"><input type="checkbox" name="time" value="5" id="id_time_4">金</label>
+
+</div><div>
+    <label for="id_time_5"><input type="checkbox" name="time" value="6" id="id_time_5">土</label>
+
+</div><div>
+    <label for="id_time_6"><input type="checkbox" name="time" value="7" id="id_time_6">日</label>
+
+</div>
+</div>
+
+<p>
+    <label for="time">time:</label>
+    <select name="time" required="" id="time">
+  <option value="" selected="">---------</option>
+
+  <option value="1">8:00~12:00</option>
+
+  <option value="2">12:00~16:00</option>
+
+  <option value="3">16:00~20:00</option>
+
+  <option value="4">20:00~24:00</option>
+
+  <option value="5">終日</option>
+
+</select>
+
+
+    
+    
+  </p>
+
+</div>
+
+</div>
+
+    </form>
 </center>
-
-<script>
-    const dayCheckboxes = document.querySelectorAll('input[name="day"]');
-    const timeSelect = document.getElementById('timeSelect');
-
-    dayCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            // 選択された曜日に応じて時間の選択を制御
-            const selectedDays = Array.from(dayCheckboxes).filter(cb => cb.checked);
-            if (selectedDays.length > 0) {
-                timeSelect.disabled = false;
-            } else {
-                timeSelect.disabled = true;
-                timeSelect.selectedIndex = -1; // 選択を解除
-            }
-        });
-    });
-</script>
-
+</div>
 
 
 </body>
