@@ -112,7 +112,19 @@ class Review(models.Model):
     comment = models.TextField()
 def __str__(self):
         return f"Review by {self.user_id}"
+    
 
+class Contact(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    email = models.EmailField(max_length=200)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'contacts'
 class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')

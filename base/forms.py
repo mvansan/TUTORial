@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Question
 from django import forms
+from .models import Question,Review
 from .models import Question, Matching
 from .models import UserInfo
 
@@ -25,6 +26,12 @@ class MatchingForm(ModelForm):
         exclude = ['user']
 
 
+"""class Review(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['comment']"""
+
+        
 
 class UserInfoForm(forms.ModelForm):
     profile_picture = forms.ImageField(label="プロフィール写真")

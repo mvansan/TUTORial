@@ -1,3 +1,4 @@
+from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
@@ -7,14 +8,13 @@ from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Topic, Matching, Question, Answer
-from .forms import QuestionForm, MatchingForm
+from .models import User, Topic, Matching, Question, Answer, UserInfo
+from .forms import QuestionForm, MatchingForm, UserInfoForm
 from .filters import MatchingFilter
 from .models import Review
-from .forms import UserInfoForm
-from .models import UserInfo
+from django.views.decorators.csrf import csrf_protect
 
-
+@csrf_protect
 def loginPage(request):
     page = 'login'
     if request.user.is_authenticated:
@@ -26,14 +26,12 @@ def loginPage(request):
             user = User.objects.get(email=username)
         except:
             messages.error(request, 'User does not exist')
-            
         user = authenticate(request, email=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             messages.error(request, 'Username OR password does not exist')
-    
     context = {'page':page}
     return render(request, 'base/login_register.html', context)
 
@@ -114,7 +112,7 @@ def submit_review(request):
         review = Review(user_id=user_id, teacher_id=teacher_id, rating=rating, comment=comment)
         review.save()
 
-    return render(request, 'assessmentform.html')
+    return render(request, 'base/form.html')
 
 def user_info(request):
     return render(request, 'base/user-info.html')
@@ -161,6 +159,29 @@ class MatchingListView(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.filterset.form
         return context
+
+
+def review(request):
+    books = request.POST.get("book")
+    teacherID = request.POST.get("teacherID")
+    print(books)
+    print(teacherID)
+    context = {}
+    return render(request, 'base/form.html',context)
+
+"""def review(request):
+    if request.mothod == 'POST':
+        form = (request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            review.objects.create(text=text)
+            return redirect('top-page')
+        else:
+            form = Review()
+            return render(request,'base/form.html',{form:form})"""
+
+def match(request):
+    return render(request, 'base/match.html')
 
 
 def user_info_view(request):
