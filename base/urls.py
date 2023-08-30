@@ -10,8 +10,8 @@ urlpatterns = [
     path('delete-question/<str:pk>', views.deleteQuestion, name="delete-question"),
     path('assessmentform/',views.submit_review,name="assessmentform"),
      path('submit_review/', views.submit_review, name='submit_review'),
-    path('user_info/', views.user_info, name="user_info"),
-    path('student-profile/', views.student_profile_view, name="student-profile"),
+    path('user-info/', views.ItemCreateView.as_view(), name="user-info"),
+    path('student-profile/<int:pk>/', views.UserDetail.as_view(), name="student-profile"),
     path('teacher-profile/', views.teacher_profile_view, name="teacher-profile"),
     path('matching/', views.MatchingListView.as_view(), name="matching"),
 ]

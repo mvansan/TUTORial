@@ -196,9 +196,9 @@ a {
 
 .Form {
   margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 720px;
+  margin-left: 80px;
+  margin-right: 60px;
+
 }
 @media screen and (max-width: 480px) {
   .Form {
@@ -384,13 +384,14 @@ float: right;
 .text-content-title {
 width: 30%;
 letter-spacing: 0.05em;
-font-size: 20px;
+font-size: 23px;
 margin-right: 30px;
 }
 
 .content-input {
 width: 50%;
 font-size: 20px;
+font-size: 25px;
 }
 
 .text-content-item {
@@ -444,3 +445,25 @@ align-items: center;
   color: #ffffff;
 }
 /**/
+
+/*user-info*/
+.content {
+  display: flex;
+  margin: 30px 50px auto 50px;
+}
+
+.content-title {
+  width: 50%;
+  text-align: center;
+  font-size: 20px;
+}
+
+.input-form {
+  width: 50%;
+  font-size: 20px;
+}
+
+.about_me {
+  height: 100px;
+  width: 100px
+}
