@@ -3,15 +3,28 @@
 {% block content %}
 <div class="row">
     <h1 class="text-center mt-4">Matching result</h1>
+    <h1>
+        {{ request }}
+    </h1>
+    <hr/>
+    <h1>
+        {{ matchings }}
+    </h1>
+    <h1>
+        {% for matching in matchings %}
+        {{matching.time}}
+        {%endfor%}
+    </h1>
     {% for matching in matchings %}
     <div class ="matching-container mb-4 col-4">
         <div class="matching-box row">
-            <div class="profile-picture col-4">
+            <a class="profile-picture col-4">
                 <img class="center" src="{{matching.user.avatar.url}}" height="100" />
-            </div>
+            </a>
             <div class="col-8">
                 <p>Topic: {{matching.topic}}</p>
                 <p>Salary: {{matching.salary}}</p>
+                <p>Point: {{ matching.point }}</p>
                 <div class="weekDays-selector">
                     {% if '1' in matching.time %}
                     <input type="checkbox" onclick="return false;" id="weekday-mon" class="weekday" checked />
@@ -73,6 +86,10 @@
             </div>
         </div>
     </div>
+{% endfor %}
+
+{% for point in points %}
+<div> {{point.point}} </div>
 {% endfor %}
 </div>
 {% endblock content %}

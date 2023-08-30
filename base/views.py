@@ -4,10 +4,39 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import User, Topic, Subtopic, Matching, Point, Question, Answer
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from .models import User, Topic, Matching, Question, Answer
 from .forms import QuestionForm, MatchingForm
 from .filters import MatchingFilter
 from .models import Review
+
+def loginPage(request):
+    page = 'login'
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(email=username)
+        except:
+            messages.error(request, 'User does not exist')
+            
+        user = authenticate(request, email=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username OR password does not exist')
+    
+    context = {'page':page}
+    return render(request, 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 def home(request):
     topics = Topic.objects.all()
@@ -102,9 +131,10 @@ def matching(request):
 
 def matchingResult(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
+    request = request.GET
     matchings = matching_filter.qs
-    context = {'matchings':matchings}
-    return render(request, 'base/matchin-result.html', context)
+    context = {'matchings':matchings,'matching_filter':matching_filter, 'request':request}
+    return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
     queryset = Matching.objects.all()
