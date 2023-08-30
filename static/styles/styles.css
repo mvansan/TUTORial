@@ -403,12 +403,10 @@ align-items: center;
 
 /*Matching*/
 .matching-container {
-  margin: 1em 0;
-  padding: 1em;
+  padding: 1.5em;
 }
 
 .matching-box {
-  margin: 1em 0;
   border-radius: 1rem;
   padding: 2rem;
   background-color: var(--color-light);
