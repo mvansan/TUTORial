@@ -152,7 +152,7 @@ a {
     background-image: url("/static/images/banner.png"); 
     background-size: cover; 
     background-repeat: no-repeat; 
-    background-position: center center;
+    background-position: center ;
 }
 
 .search-tab {
@@ -166,13 +166,6 @@ a {
     border-radius: 100px;
     text-align: center;
     font-size: large;
-}
-
-body {
-    background-image: url("/static/images/banner.png"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center center;
 }
 
 .background-image {
