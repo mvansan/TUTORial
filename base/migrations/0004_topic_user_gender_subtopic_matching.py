@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='gender',
-            field=models.IntegerField(choices=[(0, 'Male'), (1, 'Female'), (2, 'Not specified')], default=2),
+            field=models.IntegerField(choices=[(0, 'Male'), (1, 'Female'), (2, 'Not specified')], default='2'),
         ),
         migrations.CreateModel(
             name='Subtopic',
