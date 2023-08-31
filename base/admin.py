@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import User, Topic, Matching, Question, Answer, Review
 
 class MatchingAdmin(admin.ModelAdmin):
-    list_display = ("user", "topic", "salary","point","time",)
+    list_display = ("user", "topic", "salary", "point", "time", "matching_count", "priority")
 
 admin.site.register(User)
 admin.site.register(Topic)
