@@ -8,13 +8,13 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    age = models.PositiveIntegerField(0)
+    age = models.PositiveIntegerField(default=0)
     job = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     about_me = models.TextField(null=True)
     meeting_app = models.CharField(max_length=100)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -27,6 +27,7 @@ class Matching(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
     matching_count = models.IntegerField(default=0)
+    priority = models.FloatField(default=0)
     
     DOWChoices = ((1, '月'),
                 (2, '火'),
