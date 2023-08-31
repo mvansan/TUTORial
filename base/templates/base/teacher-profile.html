@@ -17,33 +17,33 @@
 
         <div class="profile">
             <div class="profile-image">
-                <img src="{% static 'images/logo.png' %}" alt="icon" height="300" width="300">
+                <img src="{{object.profile_picture.url}}" alt="icon" height="300" width="300">
             </div>
 
             <div class="text-content">
                 <div class="text-content-item">
-                    <p class="text-content-title">ポイント</p>
-                    <div class="content-input">test</div>
-                </div>
-                <div class="text-content-item">
                     <p class="text-content-title">氏名</p>
-                    <div class="content-input">test</div>
+                    <div class="content-input">{{ object.name }}</div>
                 </div>
                 <div class="text-content-item">
                     <p class="text-content-title">年齢</p>
-                    <div class="content-input">test</div>
+                    <div class="content-input">{{ object.age }}歳</div>
                 </div>
                 <div class="text-content-item">
                     <p class="text-content-title">職業</p>
-                    <div class="content-input">test</div>
+                    <div class="content-input">{{ object.job }}</div>
                 </div>
                 <div class="text-content-item">
                     <p class="text-content-title">自分について</p>
-                    <div class="content-input">test</div>
+                    <div class="content-input">{{ object.about_me }}</div>
                 </div>
                 <div class="text-content-item">
-                    <p class="text-content-title">オンラインミーティングで使用できるアプリ</p>
-                    <div class="content-input">test</div>
+                    <p class="text-content-title">使用可能なオンラインミーティングアプリ</p>
+                    <div class="content-input">{{ object.meeting_app }}</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">ポイント</p>
+                    <div class="content-input">{{ object.meeting_app }}</div>
                 </div>
             </div>
         </div>
