@@ -126,3 +126,21 @@ class Contact(models.Model):
 class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')
+
+
+    
+    
+class UserInfo(models.Model):
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    job = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    about_me = models.TextField()
+    meeting_app = models.CharField(max_length=100)
+
+class star(models.Model):
+    rating = models.IntegerField()
+    report = models.TextField()
+
