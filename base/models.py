@@ -140,3 +140,7 @@ class UserInfo(models.Model):
     email = models.EmailField()
     about_me = models.TextField()
     meeting_app = models.CharField(max_length=100)
+
+class star(models.Model):
+    rating = models.IntegerField()
+    report = models.TextField()
