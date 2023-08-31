@@ -1,11 +1,9 @@
-import urllib
 import re
-from urllib import parse
 from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.contrib import messages
@@ -140,30 +138,14 @@ def matching(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     form = matching_filter.form
     matchings = matching_filter.qs
-    context = {'form':form, 'matchings':matchings}
+    context = {'form':form, 'matchings':matchings,}
     return render(request, 'base/matching.html', context)
-
-def extract_time_string(request):
-    request = request.GET
-    query_string = request.META['QUERY_STRING']
-    decoded_query_string = parse.unquote(query_string)
-    match = re.search('time=.*', decoded_query_string)
-    return match.group()
-
-def extract_numbers(string):
-    patterns = 'time=([0-9]+)'
-    matches = re.findall(patterns, string)
-    return matches
 
 def matchingResult(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
-    request = request.GET
-    matchings = matching_filter.qs
-    
-    time_string = extract_time_string(request)
-    numbers = extract_numbers(time_string)
+    matchings = matching_filter.qs.order_by('-priority')
 
-    context = {'matchings':matchings, 'request':request, 'time_string':time_string, 'numbers':numbers}
+    context = {'matchings':matchings,}
     return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
@@ -177,6 +159,27 @@ class MatchingListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.filterset.form
+        return context
+    
+class MatchingResultView(TemplateView):
+    template_name = 'base/matching-result.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
+        matchings = matching_filter.qs
+        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
+        
+        selected_times = self.request.GET.getlist('time')  # Get the selected times from the form
+        context['selected_times'] = selected_times
+        
+        for matching in matchings:
+            matching_count = 0
+            for selected_time in selected_times:
+                if selected_time in matching.time:  # Check if the selected time matches any day in matching.time
+                    matching_count += 1
+            matching.matching_count = matching_count
+            matching.save()
         return context
 
 
@@ -248,12 +251,4 @@ class ItemCreateView(CreateView):
 class UserDetail(DetailView):
     model = UserInfo
     template_name = "base/student-profile.html"
-class MatchingResultView(TemplateView):
-    template_name = 'base/matching-result.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
-        matchings = matching_filter.qs
-        context['matchings'] = matchings
-        return context
+

@@ -3,7 +3,6 @@
 {% block content %}
 <div>
     <form method="GET" action="{% url 'matching-result' %}">
-        {% csrf_token %}
         {{form.as_p}}
         <input type="submit" value="Matching" />
     </form>

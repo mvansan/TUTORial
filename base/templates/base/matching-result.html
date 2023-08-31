@@ -3,21 +3,6 @@
 {% block content %}
 <div class="row">
     <h1 class="text-center mt-4">Matching result</h1>
-    <h1>
-        {{ request }}
-    </h1>
-    <hr/>
-    <h1>
-        {{ matchings }}
-    </h1>
-    <h1>
-        {% for number in numbers %}
-        {{number}}
-        {%endfor%}
-    </h1>
-    <h1>
-        {{time_string}}
-    </h1>
     {% for matching in matchings %}
     <div class ="matching-container mb-4 col-4">
         <div class="matching-box row">
@@ -28,6 +13,7 @@
                 <p>Topic: {{matching.topic}}</p>
                 <p>Salary: {{matching.salary}}</p>
                 <p>Point: {{ matching.point }}</p>
+                <p>Matching Count: {{ matching.matching_count }} days</p>
                 <div class="weekDays-selector">
                     {% if '1' in matching.time %}
                     <input type="checkbox" onclick="return false;" id="weekday-mon" class="weekday" checked />
