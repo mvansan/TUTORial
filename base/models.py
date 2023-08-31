@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from multiselectfield import MultiSelectField
@@ -68,8 +69,6 @@ class Matching(models.Model):
             return 100
         else:
             return 0
-        
-    
     
     def __str__(self):
         return self.user.username
