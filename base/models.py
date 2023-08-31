@@ -14,7 +14,7 @@ class User(AbstractUser):
     about_me = models.TextField(null=True)
     meeting_app = models.CharField(max_length=100)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -27,6 +27,7 @@ class Matching(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
     matching_count = models.IntegerField(default=0)
+    priority = models.FloatField(default=0)
     
     DOWChoices = ((1, '月'),
                 (2, '火'),

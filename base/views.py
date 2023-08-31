@@ -1,4 +1,4 @@
-import re
+import numpy as np
 from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
@@ -168,7 +168,7 @@ class MatchingResultView(TemplateView):
         context = super().get_context_data(**kwargs)
         matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
         matchings = matching_filter.qs
-        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
+        context['matchings'] = matchings
 
         selected_times = self.request.GET.getlist('time')  
         context['selected_times'] = selected_times
@@ -179,7 +179,22 @@ class MatchingResultView(TemplateView):
                 if selected_time in matching.time:  
                     matching_count += 1
             matching.matching_count = matching_count
+            scaled_point = matching.point / 700
+            scaled_salary = matching.salary / 1500
+            
+            normalized_matching_count = (matching_count - 1) / 6
+            normalized_point = -np.exp(-np.log(2) * scaled_point) + 1
+            normalized_salary = np.exp(-np.log(2) * scaled_salary)
+
+            
+            weight_matching_count = 0.6
+            weight_point = 0.3
+            weight_salary = 0.1
+            
+            weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) + (weight_salary * normalized_salary)
+            matching.priority = weighted_score
             matching.save()
+        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
         return context
 
 def review(request):

@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('base', '0020_contact_matching_matching_count'),
-        ('base', '0023_alter_user_age'),
+        ('base', '0022_alter_user_age'),
     ]
 
     operations = [
