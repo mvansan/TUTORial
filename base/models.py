@@ -1,4 +1,3 @@
-import numpy as np
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from multiselectfield import MultiSelectField
@@ -8,13 +7,13 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    age = models.PositiveIntegerField(0)
+    age = models.PositiveIntegerField(default=0)
     job = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     about_me = models.TextField(null=True)
     meeting_app = models.CharField(max_length=100)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -27,6 +26,7 @@ class Matching(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
     matching_count = models.IntegerField(default=0)
+    priority = models.FloatField(default=0)
     
     DOWChoices = ((1, '月'),
                 (2, '火'),
@@ -69,23 +69,6 @@ class Matching(models.Model):
         else:
             return 0
         
-    @property
-    def priority(self):
-        scaled_point = self.point / 700
-        scaled_salary = self.salary / 1500
-        
-        normalized_matching_count = (self.matching_count - 1) / 6
-        normalized_point = -np.exp(-np.log(2) * scaled_point) + 1
-        normalized_salary = np.exp(-np.log(2) * scaled_salary)
-
-        
-        weight_matching_count = 0.6
-        weight_point = 0.3
-        weight_salary = 0.1
-        
-        weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) + (weight_salary * normalized_salary)
-
-        return weighted_score
     
     
     def __str__(self):
