@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from multiselectfield import MultiSelectField
@@ -6,8 +7,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True)
     
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    age = models.PositiveIntegerField(default=0)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, default="avatar.svg")
+    age = models.PositiveIntegerField(0)
     job = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     about_me = models.TextField(null=True)
@@ -134,3 +135,8 @@ class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')
     status = models.IntegerField(null=True)
+
+class star(models.Model):
+    rating = models.IntegerField()
+    report = models.TextField()
+

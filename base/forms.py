@@ -11,6 +11,12 @@ class QuestionForm(ModelForm):
         fields = ['topic','title','body']
 
 
+# class starForm(ModelForm):
+#     class Meta:
+#         model = Question
+#         fields = ['topic','title','body']
+
+
 # class AddressForm(forms.Form):
 #     subtopic = forms.ChoiceField(
 #         choices = get_topic(),
@@ -47,4 +53,11 @@ class UserInfoForm(forms.ModelForm):
         fields = ['profile_picture','name','age','job','phone_number','email','about_me','meeting_app']
         labels = {'age':"年齢"}
 
-
+class TeacherReview(forms.ModelForm):
+    teacherID = forms.CharField(label='teacherID')
+    score = forms.IntegerField(label="score")
+    text = forms.TimeField(label='評価')
+    class Meta:
+        model = Review
+        fields = ['teacherID','score','text']
+        

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+{% include 'main.html' %}
 {%load static%}
-{%include "main.html"%}
+<div class="empty>"></div>
+<head>
+  <link rel='stylesheet' type='text/css' href="{% static 'styles/styles.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
 <style>body{
-  background-color: #FFDDD3;
+  background-color: #fef0eb;
 }
 .stars span{
   display: flex;               /* 要素をフレックスボックスにする */
@@ -29,6 +34,7 @@
 }
 </style> 
 <body>
+  
   <center>
 <form action="" method="post">
   {%csrf_token%}
@@ -36,10 +42,16 @@
       <label for="namelabel">userID</label>
       <input type="text" name="userID" id="namelabel" re placeholder="例）00000">
     </div>
-    <div class="example">
-      <label for="namelabel">teacherID</label>
-      <input type="text" name="teacherID" id="namelabel" placeholder="例）00000">
-    </div>
+    <form class="Form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="content">
+        <div class="content-title">
+          {{form.teacherID.label_tag}}
+        </div>
+        <div class="input-form">
+          {{form.teacherID}}
+        </div>
+      </div>
     <div class="review">
       <h3>レビュー</h3>
       <div class="stars">
@@ -50,10 +62,14 @@
         <input id="review05" type="radio" name="book" value="-100"><label for="review05">★</label>
       </div>
     </div>
-    <div class="example">
-      <p>ご意見</p>
-      <label for="ikenlabel"><br></label>
-      <textarea name="comment" cols="100" rows="50"></textarea></p>
+    <div class="content">
+      <div class="content-title">
+        {{form.text.label_tag}}
+      </div>
+      <div class="input-form">
+          {{form.text}}
+
+      </div>
     </div>
     <div class="example">
       <input type="submit" value="送信する">
