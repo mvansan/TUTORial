@@ -9,7 +9,7 @@ from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Topic, Matching, Question, Answer, UserInfo, MatchingStatus
+from .models import User, Topic, Matching, Question, Answer,  MatchingStatus
 from .forms import QuestionForm, MatchingForm, UserInfoForm,TeacherReview
 from .filters import MatchingFilter
 from .models import Review
@@ -24,17 +24,17 @@ def loginPage(request):
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(username=username)
         except:
             messages.error(request, 'User does not exist')
-        user = authenticate(request, email=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Username OR password does not exist')
+            messages.error(request, 'Username OR password is not correct')
     context = {'page':page}
-    return render(request, 'base/login_register.html', context)
+    return render(request, 'base/login.html', context)
 
 def logoutUser(request):
     logout(request)
@@ -148,9 +148,14 @@ def createMatching(request):
     return render(request, 'base/matching_form.html', context)
 
 def myMatching(request):
-    matched_matchings = MatchingStatus.objects.filter(user=request.user, status=2)
-    pending_matchings = MatchingStatus.objects.filter(user=request.user, status=1)
-    context = {'matched_matchings':matched_matchings, 'pending_matchings':pending_matchings}
+    s_matched_matchings = MatchingStatus.objects.filter(user=request.user, status=2)
+    s_pending_matchings = MatchingStatus.objects.filter(user=request.user, status=1)
+    t_matched_matchings = MatchingStatus.objects.filter(teacher=request.user, status=2)
+    t_pending_matchings = MatchingStatus.objects.filter(teacher=request.user, status=1)
+    context = {
+        's_matched_matchings':s_matched_matchings, 's_pending_matchings':s_pending_matchings,
+        't_matched_matchings':t_matched_matchings, 't_pending_matchings':t_pending_matchings,
+        }
     return render(request, 'base/my-matching.html', context)
 
 def matching(request):
@@ -167,18 +172,17 @@ def matchingResult(request):
     context = {'matchings':matchings,}
     return render(request, 'base/matching-result.html', context)
 
-def sent_matching_status(request, teacher_id):
-    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
-    matchings = matching_filter.qs
-    teacher = User.objects.get(pk=teacher_id)  
-    matching_status, created = MatchingStatus.objects.get_or_create(user=request.user, teacher=teacher)
-    
-    if created:
-        matching_status.status = 1
-        matching_status.save()
-    
-    context = {'matchings':matchings,}
-    return render(request, 'base/matching-sucess.html', context)
+def sent_matching_status(request, matching_id):
+    matching = get_object_or_404(Matching, pk=matching_id)
+
+    existing_status = MatchingStatus.objects.filter(user=request.user, teacher=matching.user).first()
+    if existing_status:
+        existing_status.status = 1
+        existing_status.save()
+    else:
+        MatchingStatus.objects.create(user=request.user, teacher=matching.user, status=1)
+
+    return redirect('my-matching')
 
 def matchingSuccess(request,pk):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
@@ -316,9 +320,11 @@ def user_info_view(request):
         profile_picture = request.FILES.get('profilePicture')  # ファイルアップロードの場合
         name = request.POST.get('name')
         age = request.POST.get('age')
-        job = request.POST.get('job')
+        role = request.POST.get('role')
         phone_number = request.POST.get('phone_number')
         email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         about_me = request.POST.get('about_me')
         meeting_app = request.POST.get('meeting_app')
         
@@ -327,9 +333,11 @@ def user_info_view(request):
             profile_picture=profile_picture,
             name=name,
             age=age,
-            job=job,
+            role=role,
             phone_number=phone_number,
             email=email,
+            username = username,
+            password = password,
             about_me=about_me,
             meeting_app=meeting_app,
         )
@@ -353,7 +361,7 @@ class ItemCreateView(CreateView):
 
 
 class UserDetail(DetailView):
-    model = UserInfo
+    model = User
     template_name = "base/student-profile.html"
 class MatchingResultView(TemplateView):
     template_name = 'base/matching-result.html'

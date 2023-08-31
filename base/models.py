@@ -20,8 +20,7 @@ class User(AbstractUser):
     
     role = models.IntegerField(choices=Role.choices, default='1')
     
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'username'
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)

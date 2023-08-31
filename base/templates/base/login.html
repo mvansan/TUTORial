@@ -7,7 +7,7 @@
         <form method="POST" action="">
             {% csrf_token %}
             <div>
-                <div><label>Email</label></div>
+                <div><label>Username</label></div>
                 <input type="text" name="username" placeholder="Username" />
             </div>
             <div>
@@ -18,7 +18,7 @@
         </form>
     
         <p>Haven't signed up yet?</p>
-{% comment %}         <a href='{% url 'register' %}'>Sign up</a> {% endcomment %}
+        <a href='{% url 'user_info' %}'>Sign up</a> 
     </div>
 </div>
 {% else %}

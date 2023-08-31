@@ -1,22 +1,59 @@
 {% extends 'main.html' %}
 {% block content %}
+{% if request.user.role == 1 %}
+    <div class="container">
+        <h1>Pending matchings:</h1>
+        <div class ="mb-4 row">
+            {% for matching in s_pending_matchings  %}
+            <div class="p-3 col-4">
+                <div class="matching-box position-relative my-4">
+                    <span>氏名: {{matching.teacher}}</span>
+                    <button class="btn btn-secondary me-3 position-absolute end-0">Pending...</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr/>
+        <h1>Matched teachers:</h1>
+        <div class ="mb-4 row">
+            {% for matching in s_matched_matchings  %}
+            <div class="p-3 col-4">
+                <div class="matching-box my-4">
+                    <span>氏名: {{matching.teacher}}</span>
+                    <button class="btn btn-primary me-3 position-absolute end-0">Matched</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
 <div class="container">
     <h1>Pending matchings:</h1>
-    <div>
-        {% for matching in pending_matchings  %}
-        <div>
-            {{matching.teacher}}
+    <div class ="mb-4 row">
+        {% for matching in t_pending_matchings  %}
+        <div class="p-3 col-4">
+            <div class="matching-box position-relative my-4">
+                <span>氏名: {{matching.user}}</span>
+                <div class="grid gap-4 text-center">
+                    <button class="btn btn-danger g-col-6">Decline</button>
+                    <button class="btn btn-success g-col-6">Accept</button>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
     <hr/>
     <h1>Matched teachers:</h1>
-    <div>
-        {% for matching in matched_matchings  %}
-    <div>
-        {{matching.teacher}}
-    </div>
-    {% endfor %}
+    <div class ="mb-4 row">
+        {% for matching in t_matched_matchings  %}
+        <div class="p-3 col-4">
+            <div class="matching-box my-4">
+                <span>氏名: {{matching.user}}</span>
+                <button class="btn btn-primary me-3 position-absolute end-0">Matched</button>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
+{% endif %}
 {% endblock content %}

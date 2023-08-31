@@ -3,7 +3,6 @@
 {% block content %}
 <div class="row">
     <h1 class="text-center mt-4">マッチング結果</h1>
-    <hr/><h1>{{user_matching_statuses.teacher}}</h1>
     {% for matching in matchings %}
     <div class ="matching-container mb-4 col-4">
         <div class="matching-box row">
@@ -13,7 +12,7 @@
             <div class="col-8">
                 <p>氏名: {{matching.user.username}}</p>
                 <p>トピック: {{matching.topic}}</p>
-                <p>料金: {{matching.salary}}</p>
+                <p>料金: {{matching.salary}} 円</p>
                 <p>ポイント: {{ matching.point }}</p>
                 <div class="weekDays-selector">
                     {% if '1' in matching.time %}
@@ -72,11 +71,10 @@
                     <label for="weekday-sun">S</label>
                     {% endif %}
                 </div>
-                {% for user_matching_status in user_matching_statuses %}
-                    {% if matching.user == user_matching_status.teacher %}
-                        <a href="{% url 'sent-matching' teacher_id=matching.user.id %}" class="btn btn-primary">Matching</a>
-                    {% endif %}
-                {% endfor %}
+                <form class="text-center mt-4" method="post" action="{% url 'sent-matching' matching.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary " type="submit">Matching</button>
+                </form> 
             </div>
         </div>
     </div>

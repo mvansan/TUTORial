@@ -3,10 +3,14 @@
 
 <div class="background-image">
     <center>
-        {% if request.user.role == '1' %}
-        <a href="{% url 'matching' %}" class="search-tab">家庭教師を探しましょう！</a>
+        {% if request.user.is_authenticated %}
+            {% if request.user.role == 1 %}
+            <a href="{% url 'matching' %}" class="search-tab">家庭教師を探しましょう！</a>
+            {% else %}
+            <a href="{% url 'create-matching' %}" class="search-tab">新しいマッチングを作ろう！</a>
+            {% endif %}
         {% else %}
-        <a href="{% url 'create-matching' %}" class="search-tab">新しいマッチングを作ろう！</a>
+            <a href="{% url 'login' %}" class="search-tab">ログイン</a>
         {% endif %}
     </center>
 </div>
