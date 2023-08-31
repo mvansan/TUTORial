@@ -11,9 +11,12 @@
         {{ matchings }}
     </h1>
     <h1>
-        {% for matching in matchings %}
-        {{matching.time}}
+        {% for number in numbers %}
+        {{number}}
         {%endfor%}
+    </h1>
+    <h1>
+        {{time_string}}
     </h1>
     {% for matching in matchings %}
     <div class ="matching-container mb-4 col-4">
