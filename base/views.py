@@ -1,3 +1,6 @@
+import urllib
+import re
+from urllib import parse
 from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
@@ -140,11 +143,27 @@ def matching(request):
     context = {'form':form, 'matchings':matchings}
     return render(request, 'base/matching.html', context)
 
+def extract_time_string(request):
+    request = request.GET
+    query_string = request.META['QUERY_STRING']
+    decoded_query_string = parse.unquote(query_string)
+    match = re.search('time=.*', decoded_query_string)
+    return match.group()
+
+def extract_numbers(string):
+    patterns = 'time=([0-9]+)'
+    matches = re.findall(patterns, string)
+    return matches
+
 def matchingResult(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     request = request.GET
     matchings = matching_filter.qs
-    context = {'matchings':matchings,'matching_filter':matching_filter, 'request':request}
+    
+    time_string = extract_time_string(request)
+    numbers = extract_numbers(time_string)
+
+    context = {'matchings':matchings, 'request':request, 'time_string':time_string, 'numbers':numbers}
     return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
