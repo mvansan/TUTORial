@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'navbar.html' %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/bootstrap.min.css' %}">
+    <link rel='stylesheet' type='text/css' href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+    <body class="wrap">
+        <div class="empty"></div>
+        <div class="user_info_form_title">
+            <h3>＞講師のプロフィール</h3>
+        </div>
+
+        <div class="profile">
+            <div class="profile-image">
+                <img src="{{object.profile_picture.url}}" alt="icon" height="300" width="300">
+            </div>
+
+            <div class="text-content">
+                <div class="text-content-item">
+                    <p class="text-content-title">氏名</p>
+                    <div class="content-input">{{ object.name }}</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">年齢</p>
+                    <div class="content-input">{{ object.age }}歳</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">職業</p>
+                    <div class="content-input">{{ object.job }}</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">自分について</p>
+                    <div class="content-input">{{ object.about_me }}</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">使用可能なオンラインミーティングアプリ</p>
+                    <div class="content-input">{{ object.meeting_app }}</div>
+                </div>
+                <div class="text-content-item">
+                    <p class="text-content-title">ポイント</p>
+                    <div class="content-input">{{ object.meeting_app }}</div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</body>
+
+</html>

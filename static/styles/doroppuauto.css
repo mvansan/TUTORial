@@ -1,0 +1,59 @@
+.container {
+    max-width: 400px;
+    
+   
+margin: 0 auto;
+    padding: 20px;
+    
+   
+border: 1px solid #ccc;
+    
+   
+border-radius: 5px;
+}
+
+label, select, input[type="number"], input[type="checkbox"] {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.salary {
+    display: flex;
+justify-content: space-between;
+}
+body{
+    background-color: #ffddd3;
+    color: black;
+    padding: 10px;
+    text-align: center;  
+}
+h3 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+.rating {
+    font-size: 24px;
+    color: gold;
+}
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

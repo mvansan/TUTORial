@@ -1,0 +1,156 @@
+<html lang="ja"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/flex.css">
+</head>
+<body>
+    
+
+<header class="header header--loggedIn">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a href="/" class="navbar-brand">
+            <img src="/static/images/logo.png" alt="ロゴ" class="logo-image">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="/">ホーム</a>
+              <a class="nav-link" href="/question/">質問・答え</a>
+              <a class="nav-link" href="#">ログイン</a>
+              <a class="nav-link" href="#">サインアップ</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+</header>
+
+    <div class="empty"></div>
+
+    
+
+    
+<div>
+    <center>
+    <form method="POST" action="">
+        <input type="hidden" name="csrfmiddlewaretoken" value="RR7srhDEZD6rvArsxNTV8hY2M2IguA8AeVQrbu0VRNtvZOgmE7btLcJVEcDHoGUp">
+        <p>
+    <label for="id_topic">Topic:</label>
+    <select name="topic" required="" id="id_topic">
+  <option value="" selected="">---------</option>
+
+  <option value="1">プログラミング</option>
+
+  <option value="3">教科</option>
+
+  <option value="4">言語</option>
+
+  <option value="5">医療</option>
+
+  <option value="6">美容</option>
+
+  <option value="7">投資</option>
+
+  <option value="8">IT</option>
+
+</select>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_subtopic">Subtopic:</label>
+    <select name="subtopic" required="" id="id_subtopic">
+  <option value="" selected="">---------</option>
+
+  <option value="1">C言語</option>
+
+  <option value="2">javascript</option>
+
+  <option value="3">python</option>
+
+  <option value="4">数学</option>
+
+  <option value="5">物理</option>
+
+  <option value="6">化学</option>
+
+  <option value="7">社会</option>
+
+  <option value="8">国語</option>
+
+  <option value="9">英語</option>
+
+  <option value="10">韓国語</option>
+
+  <option value="11">AWS</option>
+
+  <option value="12">Webデザイン</option>
+
+</select>
+    
+    
+  </p>
+  <div id="id_time",class="flexbox">
+    <div>
+    <label for="id_time_0"><input type="checkbox" name="time" value="1" id="id_time_0">月</label>
+
+</div><div>
+    <label for="id_time_1"><input type="checkbox" name="time" value="2" id="id_time_1">火</label>
+
+</div><div>
+    <label for="id_time_2"><input type="checkbox" name="time" value="3" id="id_time_2">水</label>
+
+</div><div>
+    <label for="id_time_3"><input type="checkbox" name="time" value="4" id="id_time_3">木</label>
+
+</div><div>
+    <label for="id_time_4"><input type="checkbox" name="time" value="5" id="id_time_4">金</label>
+
+</div><div>
+    <label for="id_time_5"><input type="checkbox" name="time" value="6" id="id_time_5">土</label>
+
+</div><div>
+    <label for="id_time_6"><input type="checkbox" name="time" value="7" id="id_time_6">日</label>
+
+</div>
+</div>
+
+<p>
+    <label for="time">time:</label>
+    <select name="time" required="" id="time">
+  <option value="" selected="">---------</option>
+
+  <option value="1">8:00~12:00</option>
+
+  <option value="2">12:00~16:00</option>
+
+  <option value="3">16:00~20:00</option>
+
+  <option value="4">20:00~24:00</option>
+
+  <option value="5">終日</option>
+
+</select>
+
+
+    
+    
+  </p>
+
+</div>
+
+</div>
+
+    </form>
+</center>
+</div>
+
+
+</body>
+</html>

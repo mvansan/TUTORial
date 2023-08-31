@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>質問＆答え</title>
+</head>
+<style>
+    /* スタイルを追加 */
+    header {
+        background-color: #FF7F7D;
+        color: black;
+        padding: 10px;
+        text-align: center;  
+    }
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    nav ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+    .rating {
+        font-size: 24px;
+        color: gold;
+    }
+  </style>
+  </head>
+  <body>
+      <header>
+          <div id="logo">
+              <img src="logo.png" alt="ウェブサイトのロゴ">
+          <nav>
+              <ul>
+                  <li><a href="#">HOME</a></li>
+                  <li><a href="#">質問＆答え</a></li>
+                  <li><a href="#">ログイン/チャット</a></li>
+                  <li><a href="#">サインアップ/プロフィール</a></li>
+              </ul>
+          </nav>
+          </div>
+      </header>
+
+    <main>
+        <section class="filter-section">
+            <h1>トピック</h1>
+            <select id="topic-dropdown">
+                <option value="">トピックを選択</option>
+                <option value="プログラミング">プログラミング</option>
+                <option value="美容">美容</option>
+                <option value="教科">教科</option>
+                <option value="投資">投資</option>
+                <option value="言語">言語</option>
+                <option value="医療">医療</option>
+            </select>
+
+            <h1>給料</h1>
+            <div class="salary-range">
+                <label for="namelabel">min</label>
+                <input type="text" name="name" id="namelabel" placeholder="例) 00000">
+                <label for="namelabel">max</label>
+                <input type="text" name="name" id="namelabel" placeholder="例) 00000">
+            </div>
+
+            <h1>曜日</h1>
+            <div class="day-checkboxes">
+                <input type="checkbox" id="monday" name="day" value="月">
+                <label for="monday">月</label>
+
+                <input type="checkbox" id="tuesday" name="day" value="火">
+                <label for="tuesday">火</label>
+
+                <input type="checkbox" id="wednesday" name="day" value="水">
+                <label for="wednesday">水</label>
+
+                <input type="checkbox" id="thursday" name="day" value="木">
+                <label for="thursday">木</label>
+
+                <input type="checkbox" id="friday" name="day" value="金">
+                <label for="friday">金</label>
+
+                <input type="checkbox" id="saturday" name="day" value="土">
+                <label for="saturday">土</label>
+
+                <input type="checkbox" id="sunday" name="day" value="日">
+                <label for="sunday">日</label>
+            </div>
+
+            <h1>時間</h1>
+            <select id="time-dropdown">
+                <option value="">時間を選択</option>
+                <option value="朝">朝(8:00~12:00)</option>
+                <option value="昼">昼(12:00~16:00)</option>
+                <option value="夕方">夕方(16:00~20:00)</option>
+                <option value="夜">夜(20:00~24:00)</option>
+            </select>
+            <br>
+            <div class="example">
+                <input type="submit" value="マッチング！">
+              </div> 
+        </section>
+    </main>
+</body>
+</html>

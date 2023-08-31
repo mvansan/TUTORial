@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="row">
+    <div class="qa-container col-9">
+        <div class="qa">
+            <div class="question-header">
+                <a href={{request.META.HTTP_REFERER}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                </a>
+                <span>{{question.title}}</span>
+            </div>
+            <div class="question-container">
+                <div>
+                    @{{question.user.username}} <small>{{question.created|timesince}}</small>
+                </div>
+                <div>
+                    {{question.body}}
+                </div>
+                
+                {% for answer in answers %}
+                <div class="answer-container">
+                    <div>
+                        @{{answer.user.username}} <small>{{answer.created|timesince}}</small>
+                    </div>
+                    <div>
+                        {{answer.body}}
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if request.user.is_authenticated %}
+                <div class="answer-form">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="text" name="body" placeholder="ここに入力してください。。。"/>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="myqa-container col-3">
+        <div class="myqa">
+            <div class="myqa-header">
+                私の質問
+            </div>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga ut inventore repellat vero id earum vitae. Voluptates distinctio explicabo tempore. Totam exercitationem modi doloremque impedit officia eius repellat. Exercitationem, corporis.
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+  <!-- 他の共通のCSSやJavaScriptファイルのリンクなどをここに追加 -->
+</head>
+<body>
+  <!-- ヘッダーやナビゲーションメニューなどの共通要素をここに追加 -->
+  {% load static}
+  
+  {% block content %}
+  <!-- ここに各ページのコンテンツが挿入されます -->
+  {% endblock %}
+  
+  <!-- フッターや著作権情報などの共通要素をここに追加 -->
+  
+  <!-- 他の共通のJavaScriptファイルなどをここに追加 -->
+</body>
+</html>
+
