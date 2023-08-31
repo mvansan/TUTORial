@@ -2,18 +2,19 @@
 {% load static %}
 {% block content %}
 <div class="row">
-    <h1 class="text-center mt-4">Matching result</h1>
+    <h1 class="text-center mt-4">マッチング結果</h1>
+    <hr/><h1>{{user_matching_statuses.teacher}}</h1>
     {% for matching in matchings %}
     <div class ="matching-container mb-4 col-4">
         <div class="matching-box row">
-            <a class="profile-picture col-4">
-                <img class="center" src="{{matching.user.avatar.url}}" height="100" />
+            <a href="{% url 'teacher-profile' matching.user.id %}" class="profile-picture col-4">
+                <img class="center" src="{{matching.user.profile_picture.url}}" height="100" />
             </a>
             <div class="col-8">
-                <p>Topic: {{matching.topic}}</p>
-                <p>Salary: {{matching.salary}}</p>
-                <p>Point: {{ matching.point }}</p>
-                <p>Matching Count: {{ matching.matching_count }} days</p>
+                <p>氏名: {{matching.user.username}}</p>
+                <p>トピック: {{matching.topic}}</p>
+                <p>料金: {{matching.salary}}</p>
+                <p>ポイント: {{ matching.point }}</p>
                 <div class="weekDays-selector">
                     {% if '1' in matching.time %}
                     <input type="checkbox" onclick="return false;" id="weekday-mon" class="weekday" checked />
@@ -71,7 +72,11 @@
                     <label for="weekday-sun">S</label>
                     {% endif %}
                 </div>
-                
+                {% for user_matching_status in user_matching_statuses %}
+                    {% if matching.user == user_matching_status.teacher %}
+                        <a href="{% url 'sent-matching' teacher_id=matching.user.id %}" class="btn btn-primary">Matching</a>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

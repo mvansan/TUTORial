@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container">
+    <h1>Pending matchings:</h1>
+    <div>
+        {% for matching in pending_matchings  %}
+        <div>
+            {{matching.teacher}}
+        </div>
+        {% endfor %}
+    </div>
+    <hr/>
+    <h1>Matched teachers:</h1>
+    <div>
+        {% for matching in matched_matchings  %}
+    <div>
+        {{matching.teacher}}
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock content %}

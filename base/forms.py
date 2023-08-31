@@ -23,7 +23,7 @@ class MatchingForm(ModelForm):
     class Meta:
         model = Matching
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user','matching_count', 'priority']
 
 
 """class Review(ModelForm):

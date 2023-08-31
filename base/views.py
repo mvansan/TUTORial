@@ -2,14 +2,14 @@ import numpy as np
 from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Topic, Matching, Question, Answer
+from .models import User, Topic, Matching, Question, Answer, MatchingStatus
 from .forms import QuestionForm, MatchingForm, UserInfoForm
 from .filters import MatchingFilter
 from .models import Review
@@ -134,6 +134,25 @@ def create_profile(request):
 def teacher_profile_view(request):
     return render(request, 'base/teacher-profile.html')
 
+def createMatching(request):
+    form = MatchingForm()
+    if request.method == 'POST':
+        form = MatchingForm(request.POST)
+        if form.is_valid():
+            matching = form.save(commit=False)
+            matching.user = request.user
+            matching.save()
+            return redirect('home')
+        
+    context = {'form':form}
+    return render(request, 'base/matching_form.html', context)
+
+def myMatching(request):
+    matched_matchings = MatchingStatus.objects.filter(user=request.user, status=2)
+    pending_matchings = MatchingStatus.objects.filter(user=request.user, status=1)
+    context = {'matched_matchings':matched_matchings, 'pending_matchings':pending_matchings}
+    return render(request, 'base/my-matching.html', context)
+
 def matching(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     form = matching_filter.form
@@ -146,6 +165,27 @@ def matchingResult(request):
     matchings = matching_filter.qs
 
     context = {'matchings':matchings,}
+    return render(request, 'base/matching-result.html', context)
+
+def sent_matching_status(request, teacher_id):
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
+    matchings = matching_filter.qs
+    teacher = User.objects.get(pk=teacher_id)  
+    matching_status, created = MatchingStatus.objects.get_or_create(user=request.user, teacher=teacher)
+    
+    if created:
+        matching_status.status = 1
+        matching_status.save()
+    
+    context = {'matchings':matchings,}
+    return render(request, 'base/matching-sucess.html', context)
+
+def matchingSuccess(request,pk):
+    matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
+    matchings = matching_filter.qs
+
+    context = {'matchings':matchings,}
+    context = {}
     return render(request, 'base/matching-result.html', context)
 
 class MatchingListView(ListView):
@@ -179,13 +219,13 @@ class MatchingResultView(TemplateView):
                 if selected_time in matching.time:  
                     matching_count += 1
             matching.matching_count = matching_count
+            
             scaled_point = matching.point / 700
             scaled_salary = matching.salary / 1500
             
             normalized_matching_count = (matching_count - 1) / 6
             normalized_point = -np.exp(-np.log(2) * scaled_point) + 1
             normalized_salary = np.exp(-np.log(2) * scaled_salary)
-
             
             weight_matching_count = 0.6
             weight_point = 0.3
@@ -195,6 +235,8 @@ class MatchingResultView(TemplateView):
             matching.priority = weighted_score
             matching.save()
         context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
+        user = self.request.user
+        context['user_matching_statuses'] = MatchingStatus.objects.filter(user=user)
         return context
 
 def review(request):

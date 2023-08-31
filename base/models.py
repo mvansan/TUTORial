@@ -12,6 +12,13 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=20)
     about_me = models.TextField(null=True)
     meeting_app = models.CharField(max_length=100)
+    
+    class Role(models.IntegerChoices):
+        Student = 1
+        Teacher = 2
+    
+    role = models.IntegerField(choices=Role.choices, default='1')
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -70,7 +77,6 @@ class Matching(models.Model):
             return 0
         
     
-    
     def __str__(self):
         return self.user.username
     
@@ -127,3 +133,4 @@ class Contact(models.Model):
 class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')
+    status = models.IntegerField(null=True)
