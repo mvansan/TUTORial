@@ -3,7 +3,7 @@ from .models import Question
 from django import forms
 from .models import Question,Review
 from .models import Question, Matching
-from .models import UserInfo
+from .models import User
 
 class QuestionForm(ModelForm):
     class Meta:
@@ -43,7 +43,7 @@ class UserInfoForm(forms.ModelForm):
     about_me = forms.CharField(label="自分について", widget=forms.Textarea)
     meeting_app = forms.CharField(label="使用可能なオンラインミーティングapp")
     class Meta:
-        model = UserInfo
+        model = User
         fields = ['profile_picture','name','age','job','phone_number','email','about_me','meeting_app']
         labels = {'age':"年齢"}
 
