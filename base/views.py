@@ -160,27 +160,6 @@ class MatchingListView(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.filterset.form
         return context
-    
-class MatchingResultView(TemplateView):
-    template_name = 'base/matching-result.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
-        matchings = matching_filter.qs
-        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
-        
-        selected_times = self.request.GET.getlist('time')  # Get the selected times from the form
-        context['selected_times'] = selected_times
-        
-        for matching in matchings:
-            matching_count = 0
-            for selected_time in selected_times:
-                if selected_time in matching.time:  # Check if the selected time matches any day in matching.time
-                    matching_count += 1
-            matching.matching_count = matching_count
-            matching.save()
-        return context
 
 
 def review(request):
@@ -244,11 +223,22 @@ class ItemCreateView(CreateView):
     model = UserInfo
     form_class = UserInfoForm
     template_name = "base/user-info.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("complete")
 
 
 
 class UserDetail(DetailView):
     model = UserInfo
-    template_name = "base/student-profile.html"
+    template_name = "base/teacher-profile.html"
+class MatchingResultView(TemplateView):
+    template_name = 'base/matching-result.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
+        matchings = matching_filter.qs
+        context['matchings'] = matchings
+        return context
 
+def complete(request):
+    return render(request, 'base/complete.html')
