@@ -222,7 +222,7 @@ class ItemCreateView(CreateView):
     model = UserInfo
     form_class = UserInfoForm
     template_name = "base/user-info.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("complete")
 
 
 
@@ -238,3 +238,6 @@ class MatchingResultView(TemplateView):
         matchings = matching_filter.qs
         context['matchings'] = matchings
         return context
+    
+def complete(request):
+    return render(request, 'base/complete.html')
