@@ -247,7 +247,9 @@ class ItemCreateView(CreateView):
 
 class UserDetail(DetailView):
     model = UserInfo
-    template_name = "base/student-profile.html"
+    template_name = "base/teacher-profile.html"
+
+
 class MatchingResultView(TemplateView):
     template_name = 'base/matching-result.html'
     
