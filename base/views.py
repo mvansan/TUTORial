@@ -11,7 +11,7 @@ from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Topic, Matching, Question, Answer, UserInfo
+from .models import User, Topic, Matching, Question, Answer
 from .forms import QuestionForm, MatchingForm, UserInfoForm
 from .filters import MatchingFilter
 from .models import Review
@@ -238,7 +238,7 @@ from django.views.generic import CreateView, TemplateView, DetailView
 from django.urls import reverse_lazy
 # Create your views here.
 class ItemCreateView(CreateView):
-    model = UserInfo
+    model = User
     form_class = UserInfoForm
     template_name = "base/user-info.html"
     success_url = reverse_lazy("complete")
@@ -246,7 +246,7 @@ class ItemCreateView(CreateView):
 
 
 class UserDetail(DetailView):
-    model = UserInfo
+    model = User
     template_name = "base/teacher-profile.html"
 
 
