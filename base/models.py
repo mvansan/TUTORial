@@ -7,14 +7,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True)
     
-    GENDER_MALE = 0
-    GENDER_FEMALE = 1
-    GENDER_NOT_SPECIFIED = 2
-    GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_NOT_SPECIFIED, 'Not specified')]
-    gender = models.IntegerField(choices=GENDER_CHOICES, default=GENDER_NOT_SPECIFIED)
     
-    ROLE_CHOICES = [('teacher', '講師'),('student', '生徒')]
-    role = models.CharField(max_length=200, unique=True, choices=ROLE_CHOICES, default='student')
+
     
     avatar = models.ImageField(null=True, default="avatar.svg")
     
@@ -88,7 +82,7 @@ class Matching(models.Model):
         weight_point = 0.3
         weight_salary = 0.1
         
-        weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) - (weight_salary * normalized_salary)
+        weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) + (weight_salary * normalized_salary)
 
         return weighted_score
     
@@ -145,6 +139,7 @@ class Contact(models.Model):
 
     class Meta:
         db_table = 'contacts'
+    
 class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')

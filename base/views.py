@@ -143,7 +143,7 @@ def matching(request):
 
 def matchingResult(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
-    matchings = matching_filter.qs.order_by('-priority')
+    matchings = matching_filter.qs
 
     context = {'matchings':matchings,}
     return render(request, 'base/matching-result.html', context)
@@ -161,6 +161,26 @@ class MatchingListView(ListView):
         context['form'] = self.filterset.form
         return context
 
+class MatchingResultView(TemplateView):
+    template_name = 'base/matching-result.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
+        matchings = matching_filter.qs
+        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
+
+        selected_times = self.request.GET.getlist('time')  
+        context['selected_times'] = selected_times
+
+        for matching in matchings:
+            matching_count = 0
+            for selected_time in selected_times:
+                if selected_time in matching.time:  
+                    matching_count += 1
+            matching.matching_count = matching_count
+            matching.save()
+        return context
 
 def review(request):
     books = request.POST.get("book")
@@ -216,7 +236,6 @@ def user_info_view(request):
 
 from django.shortcuts import render
 from django.views.generic import CreateView, TemplateView, DetailView
- 
 from django.urls import reverse_lazy
 # Create your views here.
 class ItemCreateView(CreateView):
@@ -230,15 +249,6 @@ class ItemCreateView(CreateView):
 class UserDetail(DetailView):
     model = UserInfo
     template_name = "base/teacher-profile.html"
-class MatchingResultView(TemplateView):
-    template_name = 'base/matching-result.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
-        matchings = matching_filter.qs
-        context['matchings'] = matchings
-        return context
 
 def complete(request):
     return render(request, 'base/complete.html')
