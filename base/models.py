@@ -1,4 +1,4 @@
-import numpy as np
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from multiselectfield import MultiSelectField
@@ -7,14 +7,14 @@ class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(unique=True)
     
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, default="avatar.svg")
     age = models.PositiveIntegerField(0)
     job = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     about_me = models.TextField(null=True)
     meeting_app = models.CharField(max_length=100)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -27,6 +27,7 @@ class Matching(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     salary = models.IntegerField(null=True)
     matching_count = models.IntegerField(default=0)
+    priority = models.FloatField(default=0)
     
     DOWChoices = ((1, '月'),
                 (2, '火'),
@@ -68,25 +69,6 @@ class Matching(models.Model):
             return 100
         else:
             return 0
-        
-    @property
-    def priority(self):
-        scaled_point = self.point / 700
-        scaled_salary = self.salary / 1500
-        
-        normalized_matching_count = (self.matching_count - 1) / 6
-        normalized_point = -np.exp(-np.log(2) * scaled_point) + 1
-        normalized_salary = np.exp(-np.log(2) * scaled_salary)
-
-        
-        weight_matching_count = 0.6
-        weight_point = 0.3
-        weight_salary = 0.1
-        
-        weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) + (weight_salary * normalized_salary)
-
-        return weighted_score
-    
     
     def __str__(self):
         return self.user.username
@@ -144,3 +126,21 @@ class Contact(models.Model):
 class MatchingStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher_status')
+
+
+    
+    
+class UserInfo(models.Model):
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    job = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    about_me = models.TextField()
+    meeting_app = models.CharField(max_length=100)
+
+class star(models.Model):
+    rating = models.IntegerField()
+    report = models.TextField()
+

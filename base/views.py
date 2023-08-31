@@ -1,4 +1,4 @@
-import re
+import numpy as np
 from itertools import count
 from typing import Any, Dict
 from django.db.models.query import QuerySet
@@ -9,8 +9,8 @@ from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Topic, Matching, Question, Answer
-from .forms import QuestionForm, MatchingForm, UserInfoForm
+from .models import User, Topic, Matching, Question, Answer, UserInfo
+from .forms import QuestionForm, MatchingForm, UserInfoForm,TeacherReview
 from .filters import MatchingFilter
 from .models import Review
 from django.views.decorators.csrf import csrf_protect
@@ -168,7 +168,7 @@ class MatchingResultView(TemplateView):
         context = super().get_context_data(**kwargs)
         matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
         matchings = matching_filter.qs
-        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
+        context['matchings'] = matchings
 
         selected_times = self.request.GET.getlist('time')  
         context['selected_times'] = selected_times
@@ -179,27 +179,91 @@ class MatchingResultView(TemplateView):
                 if selected_time in matching.time:  
                     matching_count += 1
             matching.matching_count = matching_count
+            scaled_point = matching.point / 700
+            scaled_salary = matching.salary / 1500
+            
+            normalized_matching_count = (matching_count - 1) / 6
+            normalized_point = -np.exp(-np.log(2) * scaled_point) + 1
+            normalized_salary = np.exp(-np.log(2) * scaled_salary)
+
+            
+            weight_matching_count = 0.6
+            weight_point = 0.3
+            weight_salary = 0.1
+            
+            weighted_score = (weight_matching_count * normalized_matching_count) + (weight_point * normalized_point) + (weight_salary * normalized_salary)
+            matching.priority = weighted_score
             matching.save()
+        context['matchings'] = sorted(matchings, key=lambda instance: instance.priority, reverse=True)
         return context
 
-def review(request):
-    books = request.POST.get("book")
-    teacherID = request.POST.get("teacherID")
-    print(books)
-    print(teacherID)
-    context = {}
-    return render(request, 'base/form.html',context)
 
-"""def review(request):
-    if request.mothod == 'POST':
-        form = (request.POST)
-        if form.is_valid():
-            text = form.cleaned_data['text']
-            review.objects.create(text=text)
-            return redirect('top-page')
-        else:
-            form = Review()
-            return render(request,'base/form.html',{form:form})"""
+
+# def review(request):
+#     if request.method == 'POST':
+#         score = request.FILES.get('books')  # ファイルアップロードの場合
+#         name = request.POST.get('na')
+#         age = request.POST.get('age')
+#         job = request.POST.get('job')
+#         phone_number = request.POST.get('phone_number')
+#         email = request.POST.get('email')
+#         about_me = request.POST.get('about_me')
+#         meeting_app = request.POST.get('meeting_app')
+        
+#         # データベースに保存
+#         user_info = UserInfoForm(
+#             profile_picture=profile_picture,
+#             name=name,
+#             age=age,
+#             job=job,
+#             phone_number=phone_number,
+#             email=email,
+#             about_me=about_me,
+#             meeting_app=meeting_app,
+#         )
+#         user_info.save()
+        
+#         return redirect('success_url')  # 登録成功後のURLにリダイレクト
+    
+#     return render(request, 'base/form.html')
+   
+
+    # # teacher = None
+    # # rating = None
+    # # comment = None
+    # if request.method == 'POST':
+    #     rating = request.POST.get("book")
+    #     teacher = request.POST.get("teacher")
+    #     comment = request.POST.get("comment")
+    # # print(rating)
+    # # print(teacher)
+
+    # teach = Review(
+    #     rating=rating,
+    #     teacher=teacher,
+    #     comment=comment,
+    # )
+    # teach.save()
+
+    # return render(request, 'base/form.html')
+
+    # books = request.POST.get("book")
+    # teacherID = request.POST.get("teacherID")
+    # print(books)
+    # print(teacherID)
+    # context = {}
+    # return render(request, 'base/form.html',context)
+
+# """def review(request):
+#     if request.mothod == 'POST':
+#         form = (request.POST)
+#         if form.is_valid():
+#             text = form.cleaned_data['text']
+#             review.objects.create(text=text)
+#             return redirect('top-page')
+#         else:
+#             form = Review()
+#             return render(request,'base/form.html',{form:form})"""
 
 def match(request):
     return render(request, 'base/match.html')
@@ -247,6 +311,38 @@ class ItemCreateView(CreateView):
 
 
 class UserDetail(DetailView):
+    model = UserInfo
+    template_name = "base/student-profile.html"
+class MatchingResultView(TemplateView):
+    template_name = 'base/matching-result.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        matching_filter = MatchingFilter(self.request.GET, queryset=Matching.objects.all())
+        matchings = matching_filter.qs
+        context['matchings'] = matchings
+        return context
+    
+class CreateReview(CreateView):
+    model = Review
+    form_class = TeacherReview
+    template_name = "base/form.html"
+    success_url = reverse_lazy("home")
+
+
+# def createsubimit(request): #sutasubimit
+#     form = QuestionForm()
+#     if request.method == 'POST':
+#         form = QuestionForm(request.POST)
+#         if form.is_valid():
+#             question = form.save(commit=False)
+#             question.user = request.user
+#             question.save()
+#             return redirect('question', pk=question.id)
+        
+#     context = {'form':form}
+#     return render(request, 'base/form.html', context)
+
     model = User
     template_name = "base/teacher-profile.html"
 
