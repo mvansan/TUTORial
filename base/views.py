@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from .models import User, Topic, Matching, Question, Answer,  MatchingStatus
 from .forms import QuestionForm, MatchingForm, UserInfoForm,TeacherReview
@@ -41,14 +42,17 @@ def logoutUser(request):
     return redirect('home')
 
 def home(request):
-    topics = Topic.objects.all()
     questions = Question.objects.all()
     context = {'questions':questions}
     return render(request, 'base/home.html', context)
 
 def questionList(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    questions = Question.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(title__icontains=q)
+        )
     topics = Topic.objects.all()
-    questions = Question.objects.all()
     question_count = questions.count()
     context = {'questions':questions, 'question_count':question_count, 'topics':topics}
     return render(request, 'base/question_list.html', context)
