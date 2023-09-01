@@ -158,6 +158,17 @@ def myMatching(request):
         }
     return render(request, 'base/my-matching.html', context)
 
+def accept_matching_status(request, matching_id):
+    matching_status = get_object_or_404(MatchingStatus, pk=matching_id)
+    matching_status.status = 2  # Change status to 2 (matched)
+    matching_status.save()
+    return redirect('my-matching')
+
+def decline_matching_status(request, matching_id):
+    matching_status = get_object_or_404(MatchingStatus, pk=matching_id)
+    matching_status.delete()  # Delete the matching status
+    return redirect('my-matching')
+
 def matching(request):
     matching_filter = MatchingFilter(request.GET, queryset=Matching.objects.all())
     form = matching_filter.form
@@ -362,7 +373,7 @@ class ItemCreateView(CreateView):
 
 class UserDetail(DetailView):
     model = User
-    template_name = "base/student-profile.html"
+    template_name = "base/teacher-profile.html"
 class MatchingResultView(TemplateView):
     template_name = 'base/matching-result.html'
     
